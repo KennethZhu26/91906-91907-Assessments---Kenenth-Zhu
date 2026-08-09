@@ -5,6 +5,14 @@ class Student:
         self.username = username
         self.password = password
 
+class Opportunity:
+    def __init__(self, id, name, type, organisation, deadline):
+        self.id = id
+        self.name = name
+        self.type = type
+        self.organisation = organisation
+        self.deadline = deadline
+
 def load_data(filename):
     try:
         with open(filename, "r") as file:
@@ -58,6 +66,23 @@ def login():
 
     print("Incorrect username or password.")
     return None
+
+def get_opportunities():
+    data = load_data("opportunities.json")
+    opportunities = []
+
+    for item in data:
+        opportunity = Opportunity(
+            item["id"],
+            item["name"],
+            item["type"],
+            item["organisation"],
+            item["deadline"]
+        )
+
+        opportunities.append(opportunity)
+
+    return opportunities
 
 def main():
     current_user = None
