@@ -5,6 +5,14 @@ class Student:
         self.username = username
         self.password = password
 
+class Opportunity:
+    def __init__(self, id, name, type, organisation, deadline):
+        self.id = id
+        self.name = name
+        self.type = type
+        self.organisation = organisation
+        self.deadline = deadline
+
 def load_data(filename):
     try:
         with open(filename, "r") as file:
