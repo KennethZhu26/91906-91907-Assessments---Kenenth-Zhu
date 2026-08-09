@@ -13,6 +13,13 @@ class Opportunity:
         self.organisation = organisation
         self.deadline = deadline
 
+class Application:
+    def __init__(self, username, opportunity_id, opportunity_name, status):
+        self.username = username
+        self.opportunity_id = opportunity_id
+        self.opportunity_name = opportunity_name
+        self.status = status
+
 def load_data(filename):
     try:
         with open(filename, "r") as file:
