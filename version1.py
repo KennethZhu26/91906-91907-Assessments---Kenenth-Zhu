@@ -59,6 +59,47 @@ def login():
     print("Incorrect username or password.")
     return None
 
+def main():
+    current_user = None
+
+    while True:
+        if current_user is None:
+            print("\n===== Opportunity Tracker =====")
+            print("1. Login")
+            print("2. Create Account")
+            print("3. Exit")
+
+            choice = input("Select option: ")
+
+            if choice == "1":
+                current_user = login()
+
+            elif choice == "2":
+                current_user = signup()
+
+            elif choice == "3":
+                print("Goodbye!")
+                break
+
+            else:
+                print("Invalid option.")
+
+        else:
+            print("\n===== Opportunity Tracker =====")
+            print("Welcome,", current_user)
+            print("1. View Available Opportunities")
+            print("2. Apply for Opportunity")
+            print("3. Logout")
+
+            choice = input("Select option: ")
+
+            if choice == "3":
+                current_user = None
+                print("Logged out.")
+
+            else:
+                print("Invalid option.")
+
 print("Welcome to the Opportunity Tracker!")
 
 signup()
