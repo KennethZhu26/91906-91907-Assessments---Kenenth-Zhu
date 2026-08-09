@@ -45,6 +45,20 @@ def signup():
 
     return username
 
+def login():
+    users = load_data("users.json")
+
+    username = input("Username: ")
+    password = input("Password: ")
+
+    for user in users:
+        if user["username"] == username and user["password"] == password:
+            print("Login successful!")
+            return username
+
+    print("Incorrect username or password.")
+    return None
+
 print("Welcome to the Opportunity Tracker!")
 
 signup()
