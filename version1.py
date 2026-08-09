@@ -143,7 +143,7 @@ def main():
 
             elif choice == "3":
                 current_user = None
-            print("Logged out.")
+                print("Logged out.")
 
             else:
                 print("Invalid option.")
