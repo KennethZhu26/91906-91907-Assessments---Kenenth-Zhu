@@ -1,5 +1,10 @@
 import json
 
+class Student:
+    def __init__(self, username, password):
+        self.username = username
+        self.password = password
+
 def load_data(filename):
     try:
         with open(filename, "r") as file:
