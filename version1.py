@@ -108,6 +108,40 @@ def view_opportunities():
         print("Organisation:", opportunity.organisation)
         print("Deadline:", opportunity.deadline)
 
+def apply_opportunity(username):
+    opportunities = get_opportunities()
+    applications = load_data("applications.json")
+
+    try:
+        choice = int(input("\nEnter opportunity ID to apply for: "))
+    except ValueError:
+        print("Please enter a number.")
+        return
+
+    for opportunity in opportunities:
+        if opportunity.id == choice:
+
+            new_application = Application(
+                username,
+                opportunity.id,
+                opportunity.name,
+                "Applied"
+            )
+
+            applications.append({
+                "username": new_application.username,
+                "opportunity_id": new_application.opportunity_id,
+                "opportunity_name": new_application.opportunity_name,
+                "status": new_application.status
+            })
+
+            save_data("applications.json", applications)
+
+            print("Application submitted successfully!")
+            return
+
+    print("Opportunity not found.")
+
 def main():
     current_user = None
 
@@ -146,7 +180,7 @@ def main():
                 view_opportunities()
 
             elif choice == "2":
-                print("Application system coming soon.")
+                apply_opportunity(current_user)
 
             elif choice == "3":
                 current_user = None
