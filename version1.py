@@ -67,6 +67,23 @@ def login():
     print("Incorrect username or password.")
     return None
 
+def get_opportunities():
+    data = load_data("opportunities.json")
+    opportunities = []
+
+    for item in data:
+        opportunity = Opportunity(
+            item["id"],
+            item["name"],
+            item["type"],
+            item["organisation"],
+            item["deadline"]
+        )
+
+        opportunities.append(opportunity)
+
+    return opportunities
+
 def main():
     current_user = None
 
