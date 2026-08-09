@@ -1,0 +1,16 @@
+[
+    {
+        "id": 1,
+        "name": "University Scholarship",
+        "type": "Scholarship",
+        "organisation": "University of Auckland",
+        "deadline": "01/09/2026"
+    },
+    {
+        "id": 2,
+        "name": "Software Internship",
+        "type": "Internship",
+        "organisation": "Tech Company",
+        "deadline": "15/10/2026"
+    }
+]
