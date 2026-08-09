@@ -57,6 +57,7 @@ def signup():
     save_data("users.json", users)
 
     print("Account created successfully!")
+    print("You are now logged in.")
 
     return username
 
@@ -189,6 +190,4 @@ def main():
             else:
                 print("Invalid option.")
 
-print("Welcome to the Opportunity Tracker!")
-
-signup()
+main()
