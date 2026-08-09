@@ -84,6 +84,23 @@ def get_opportunities():
 
     return opportunities
 
+def view_opportunities():
+    opportunities = get_opportunities()
+
+    print("\n===== Available Opportunities =====")
+
+    if len(opportunities) == 0:
+        print("No opportunities available.")
+        return
+
+    for opportunity in opportunities:
+        print("-------------------------")
+        print("ID:", opportunity.id)
+        print("Name:", opportunity.name)
+        print("Type:", opportunity.type)
+        print("Organisation:", opportunity.organisation)
+        print("Deadline:", opportunity.deadline)
+
 def main():
     current_user = None
 
@@ -118,9 +135,15 @@ def main():
 
             choice = input("Select option: ")
 
-            if choice == "3":
+            if choice == "1":
+                view_opportunities()
+
+            elif choice == "2":
+                print("Application system coming soon.")
+
+            elif choice == "3":
                 current_user = None
-                print("Logged out.")
+            print("Logged out.")
 
             else:
                 print("Invalid option.")
