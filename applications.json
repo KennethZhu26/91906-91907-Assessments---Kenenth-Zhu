@@ -4,5 +4,11 @@
         "opportunity_id": 1,
         "opportunity_name": "University Scholarship",
         "status": "Applied"
+    },
+    {
+        "username": "Kenneth26",
+        "opportunity_id": 1,
+        "opportunity_name": "University Scholarship",
+        "status": "Applied"
     }
 ]
