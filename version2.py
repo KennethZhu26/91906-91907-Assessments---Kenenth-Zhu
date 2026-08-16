@@ -127,6 +127,13 @@ def get_opportunities():
 
     return opportunities
 
+root = tk.Tk()
+root.title("Opportunity Tracker")
+root.geometry("600x600")
+root.resizable(False, False)
+
+current_user = None
+
 # Displays all avaliable opportunities if selected
 def view_opportunities():
     opportunities = get_opportunities()
