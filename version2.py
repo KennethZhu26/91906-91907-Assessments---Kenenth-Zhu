@@ -88,22 +88,26 @@ def signup():
     # Returns the username so that student can be logged in immediately after sign up
     return username
 
-# Checks the username and password against the account details stored in users.json
-def login():
-    users = load_data("users.json")
+def login_form():
+    global username_entry, password_entry
 
-    username = input("Username: ")
-    password = input("Password: ")
+    clear_screen()
 
-    # Searches through each stored user to find matching login details
-    for user in users:
-        if user["username"] == username and user["password"] == password:
-            print("Login successful!")
-            return username
+    main_frame = frame(root)
+    main_frame.pack(expand=True)
 
-    # Runs if no account matches login details entered
-    print("Incorrect username or password.")
-    return None
+    label(main_frame, "Login", HEADING_FONT, PRIMARY).pack(pady=(20, 25))
+
+    label(main_frame, "Username").pack()
+    username_entry = entry(main_frame)
+    username_entry.pack(pady=6)
+
+    label(main_frame, "Password").pack(pady=(10, 0))
+    password_entry = entry(main_frame, password=True)
+    password_entry.pack(pady=6)
+
+    button(main_frame, "Login", login).pack(pady=(20, 8))
+    button(main_frame, "Back", login_screen).pack(pady=5)
 
 # Opportunity Functions
 
@@ -261,42 +265,20 @@ def apply_opportunity(username):
     # Runs if entered ID does not match with any avaliable opportunities
     print("Opportunity not found.")
 
-
 def login_screen():
     clear_screen()
 
     main_frame = frame(root)
     main_frame.pack(expand=True)
 
-    label(
-        main_frame,
-        "Opportunity Tracker",
-        TITLE_FONT,
-        PRIMARY
-    ).pack(pady=(40, 10))
+    label(main_frame, "Opportunity Tracker", TITLE_FONT, PRIMARY).pack(pady=(40, 10))
+    label(main_frame, "Manage your opportunities in one place").pack(pady=(0, 30))
 
-    label(
-        main_frame,
-        "Manage your opportunities in one place"
-    ).pack(pady=(0, 30))
+    button(main_frame, "Login", login_form).pack(pady=8)
+    button(main_frame, "Create Account", signup).pack(pady=8)
+    button(main_frame, "Exit", exit_program).pack(pady=8)
 
-    button(
-        main_frame,
-        "Login",
-        login_form
-    ).pack(pady=8)
 
-    button(
-        main_frame,
-        "Create Account",
-        signup
-    ).pack(pady=8)
-
-    button(
-        main_frame,
-        "Exit",
-        exit_program
-    ).pack(pady=8)
 
 login_screen()
 root.mainloop()
