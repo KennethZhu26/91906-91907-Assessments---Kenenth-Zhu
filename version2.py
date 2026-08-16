@@ -134,6 +134,10 @@ root.resizable(False, False)
 
 current_user = None
 
+def clear_screen():
+    for widget in root.winfo_children():
+        widget.destroy()
+
 # Displays all avaliable opportunities if selected
 def view_opportunities():
     opportunities = get_opportunities()
