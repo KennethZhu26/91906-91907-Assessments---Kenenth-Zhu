@@ -115,7 +115,10 @@ def entry(parent, width=30, password=False):
 def frame(parent):
     return tk.Frame(parent, bg=BACKGROUND)
 
-
+def exit_program():
+    if messagebox.askyesno("Exit", "Are you sure you want to exit?"):
+        messagebox.showinfo("Goodbye", "Thank you for using Opportunity Tracker!")
+        root.destroy()
 
 def login_screen():
     clear_screen()
@@ -324,46 +327,17 @@ def view_opportunities():
 
     button(root, "Back", main_menu, width=15).pack(pady=10)
 
-# Allows student to apply for opportunity using its corresponding ID
-def apply_opportunity(username):
-    opportunities = get_opportunities()
-    applications = load_data("applications.json")
+def apply_opportunity():
+    clear_screen()
 
-    # Attempts to convert user's input into an integer to prevent errors from entering letters
-    try:
-        choice = int(input("\nEnter opportunity ID to apply for: "))
-    except ValueError:
-        print("Please enter a number.")
-        return
+    main_frame = frame(root)
+    main_frame.pack(expand=True)
 
-    # Searches for an opportunity with an ID which matches the user's input
-    for opportunity in opportunities:
-        if opportunity.id == choice:
+    label(main_frame, "Apply for Opportunity", HEADING_FONT, PRIMARY).pack(pady=20)
+    label(main_frame, "Enter Opportunity ID:").pack()
 
-            # Creates an Application object for the selected opportunity
-            new_application = Application(
-                username,
-                opportunity.id,
-                opportunity.name,
-                "Applied"
-            )
-
-            # Adds the application information to the application list
-            applications.append({
-                "username": new_application.username,
-                "opportunity_id": new_application.opportunity_id,
-                "opportunity_name": new_application.opportunity_name,
-                "status": new_application.status
-            })
-
-            # Saves the new application to applications.json
-            save_data("applications.json", applications)
-
-            print("Application submitted successfully!")
-            return
-
-    # Runs if entered ID does not match with any avaliable opportunities
-    print("Opportunity not found.")
+    id_entry = entry(main_frame, width=20)
+    id_entry.pack(pady=10)
 
 
 login_screen()
