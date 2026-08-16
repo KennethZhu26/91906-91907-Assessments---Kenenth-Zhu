@@ -109,6 +109,38 @@ def login_form():
     button(main_frame, "Login", login).pack(pady=(20, 8))
     button(main_frame, "Back", login_screen).pack(pady=5)
 
+# =========================
+# Login
+# =========================
+
+def login():
+    global current_user
+
+    username = username_entry.get().strip()
+    password = password_entry.get()
+
+    if username == "":
+        messagebox.showerror("Error", "Please enter your username.")
+        username_entry.focus()
+        return
+
+    if password == "":
+        messagebox.showerror("Error", "Please enter your password.")
+        password_entry.focus()
+        return
+
+    users = load_data("users.json")
+
+    for user in users:
+        if user["username"] == username and user["password"] == password:
+            current_user = username
+            messagebox.showinfo("Login Successful", "Welcome back, " + username + "!")
+            return
+
+    messagebox.showerror("Login Failed", "Incorrect username or password.")
+    password_entry.delete(0, tk.END)
+    password_entry.focus()
+
 # Opportunity Functions
 
 # Loads opportunities from the JSON file and the converts them into Opportunity objects
