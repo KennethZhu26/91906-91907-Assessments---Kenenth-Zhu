@@ -177,6 +177,7 @@ def login():
             current_user = username
             messagebox.showinfo("Login Successful", "Welcome back, " + username + "!")
             main_menu()
+            return
 
     messagebox.showerror("Login Failed", "Incorrect username or password.")
     password_entry.delete(0, tk.END)
@@ -184,7 +185,6 @@ def login():
 
 
 def signup():
-    global new_username_entry, new_password_entry, confirm_password_entry
     clear_screen()
 
     main_frame = frame(root)
@@ -205,9 +205,6 @@ def signup():
     confirm_password_entry.pack(pady=5)
 
     label(main_frame, "Password must be at least 6 characters.", ("Arial", 9)).pack(pady=5)
-
-    button(main_frame, "Create Account", create_account).pack(pady=(15, 8))
-    button(main_frame, "Back", login_screen).pack(pady=5)
 
 
     def create_account():
@@ -399,6 +396,14 @@ def apply_opportunity():
 
     button(main_frame, "Submit Application", submit_application).pack(pady=10)
     button(main_frame, "Back", main_menu).pack(pady=5)
+
+def logout():
+    global current_user
+
+    if messagebox.askyesno("Logout", "Are you sure you want to logout?"):
+        current_user = None
+        messagebox.showinfo("Logged Out", "You have been logged out successfully.")
+        login_screen()
 
 login_screen()
 root.mainloop()
