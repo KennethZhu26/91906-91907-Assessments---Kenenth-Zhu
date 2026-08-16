@@ -134,6 +134,19 @@ root.resizable(False, False)
 
 current_user = None
 
+BACKGROUND = "#F2F4F7"
+PRIMARY = "#2F5D8C"
+SECONDARY = "#E8EEF5"
+TEXT = "#222222"
+WHITE = "#FFFFFF"
+
+TITLE_FONT = ("Arial", 24, "bold")
+HEADING_FONT = ("Arial", 18, "bold")
+NORMAL_FONT = ("Arial", 11)
+BUTTON_FONT = ("Arial", 11, "bold")
+
+root.configure(bg=BACKGROUND)
+
 def clear_screen():
     for widget in root.winfo_children():
         widget.destroy()
