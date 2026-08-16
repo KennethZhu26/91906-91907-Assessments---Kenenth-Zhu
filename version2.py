@@ -339,6 +339,66 @@ def apply_opportunity():
     id_entry = entry(main_frame, width=20)
     id_entry.pack(pady=10)
 
+    def submit_application():
+        value = id_entry.get().strip()
+
+        if value == "":
+            messagebox.showerror("Error", "Please enter an opportunity ID.")
+            id_entry.focus()
+            return
+
+        try:
+            choice = int(value)
+        except ValueError:
+            messagebox.showerror("Error", "Opportunity ID must be a number.")
+            id_entry.delete(0, tk.END)
+            id_entry.focus()
+            return
+
+        opportunities = get_opportunities()
+        applications = load_data("applications.json")
+
+        for opportunity in opportunities:
+            if opportunity.id == choice:
+
+                for application in applications:
+                    if (application["username"] == current_user and
+                            application["opportunity_id"] == opportunity.id):
+                        messagebox.showerror(
+                            "Already Applied",
+                            "You have already applied for this opportunity."
+                        )
+                        return
+
+                new_application = Application(
+                    current_user,
+                    opportunity.id,
+                    opportunity.name,
+                    "Applied"
+                )
+
+                applications.append({
+                    "username": new_application.username,
+                    "opportunity_id": new_application.opportunity_id,
+                    "opportunity_name": new_application.opportunity_name,
+                    "status": new_application.status
+                })
+
+                save_data("applications.json", applications)
+
+                messagebox.showinfo(
+                    "Application Submitted",
+                    "Your application has been submitted successfully!"
+                )
+                main_menu()
+                return
+
+        messagebox.showerror("Error", "Opportunity not found.")
+        id_entry.delete(0, tk.END)
+        id_entry.focus()
+
+    button(main_frame, "Submit Application", submit_application).pack(pady=10)
+    button(main_frame, "Back", main_menu).pack(pady=5)
 
 login_screen()
 root.mainloop()
