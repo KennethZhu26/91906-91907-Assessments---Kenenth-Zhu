@@ -261,67 +261,42 @@ def apply_opportunity(username):
     # Runs if entered ID does not match with any avaliable opportunities
     print("Opportunity not found.")
 
-# Main Program (Main Menu)
 
-# Controls the main flow of the program and determines which menu user should see
-# Menu shown depends on whether there is someone logged in or not
-def main():
-    # Corresponds to no student currently being logged in
-    current_user = None
+def login_screen():
+    clear_screen()
 
-    # Keeps the program running until user chooses to exit
-    while True:
+    main_frame = frame(root)
+    main_frame.pack(expand=True)
 
-        #Displays login menu when no student is currently logged in
-        if current_user is None:
-            print("\n===== Opportunity Tracker =====")
-            print("1. Login")
-            print("2. Create Account")
-            print("3. Exit")
+    label(
+        main_frame,
+        "Opportunity Tracker",
+        TITLE_FONT,
+        PRIMARY
+    ).pack(pady=(40, 10))
 
-            choice = input("Select option: ")
+    label(
+        main_frame,
+        "Manage your opportunities in one place"
+    ).pack(pady=(0, 30))
 
-            # Attempts to log student in
-            if choice == "1":
-                current_user = login()
+    button(
+        main_frame,
+        "Login",
+        login_form
+    ).pack(pady=8)
 
-            # reates a new account and then logs student in immediately after
-            elif choice == "2":
-                current_user = signup()
+    button(
+        main_frame,
+        "Create Account",
+        signup
+    ).pack(pady=8)
 
-            # Ends the program
-            elif choice == "3":
-                print("Goodbye!")
-                break
+    button(
+        main_frame,
+        "Exit",
+        exit_program
+    ).pack(pady=8)
 
-            else:
-                print("Invalid option.")
-
-        # Displays the student menu/main menu when student is logged in
-        else:
-            print("\n===== Opportunity Tracker =====")
-            print("Welcome,", current_user)
-            print("1. View Available Opportunities")
-            print("2. Apply for Opportunity")
-            print("3. Logout")
-
-            choice = input("Select option: ")
-
-            # Option to display all avaliable opportunities currently
-            if choice == "1":
-                view_opportunities()
-
-            # Allows student to apply for an opportunity
-            elif choice == "2":
-                apply_opportunity(current_user)
-
-            # Logs student out
-            elif choice == "3":
-                current_user = None
-                print("Logged out.")
-
-            else:
-                print("Invalid option.")
-
-# Starts the program by calling the main function
-main()
+login_screen()
+root.mainloop()
