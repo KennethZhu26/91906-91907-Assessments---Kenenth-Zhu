@@ -56,6 +56,7 @@ def save_data(filename, data):
 # =========================
 
 def signup():
+    global new_username_entry, new_password_entry, confirm_password_entry
     clear_screen()
 
     main_frame = frame(root)
@@ -100,6 +101,69 @@ def login_form():
 
     button(main_frame, "Login", login).pack(pady=(20, 8))
     button(main_frame, "Back", login_screen).pack(pady=5)
+
+def create_account():
+    global current_user
+
+    username = new_username_entry.get().strip()
+    password = new_password_entry.get()
+    confirm_password = confirm_password_entry.get()
+
+    if username == "":
+        messagebox.showerror("Error", "Please enter a username.")
+        new_username_entry.focus()
+        return
+
+    if password == "":
+        messagebox.showerror("Error", "Please enter a password.")
+        new_password_entry.focus()
+        return
+
+    if len(password) < 6:
+        messagebox.showerror(
+            "Password Error",
+            "Password must be at least 6 characters.\nPlease create a new password."
+        )
+        new_password_entry.delete(0, tk.END)
+        confirm_password_entry.delete(0, tk.END)
+        new_password_entry.focus()
+        return
+
+    if password != confirm_password:
+        messagebox.showerror(
+            "Password Error",
+            "Passwords do not match.\nPlease try again."
+        )
+        confirm_password_entry.delete(0, tk.END)
+        confirm_password_entry.focus()
+        return
+
+    users = load_data("users.json")
+
+    for user in users:
+        if user["username"] == username:
+            messagebox.showerror(
+                "Error",
+                "Username already exists.\nPlease choose another username."
+            )
+            new_username_entry.focus()
+            return
+
+    new_student = Student(username, password)
+
+    users.append({
+        "username": new_student.username,
+        "password": new_student.password
+    })
+
+    save_data("users.json", users)
+
+    current_user = username
+
+    messagebox.showinfo(
+        "Account Created",
+        "Account created successfully!\nYou are now logged in."
+    )
 
 # =========================
 # Login
