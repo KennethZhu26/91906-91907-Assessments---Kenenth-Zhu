@@ -51,42 +51,34 @@ def save_data(filename, data):
 
 # Account Functions
 
-# Allows a new student to create an account and then saves their details to users.json
+# =========================
+# Signup
+# =========================
+
 def signup():
-    users = load_data("users.json")
+    clear_screen()
 
-    username = input("Create username: ")
+    main_frame = frame(root)
+    main_frame.pack(expand=True)
 
-    # Checks all existing users to make sure username is not already taken
-    for user in users:
-        if user["username"] == username:
-            print("Username already exists.")
-            return None
+    label(main_frame, "Create Account", HEADING_FONT, PRIMARY).pack(pady=(15, 20))
 
-    password = input("Create password: ")
+    label(main_frame, "Username").pack()
+    new_username_entry = entry(main_frame)
+    new_username_entry.pack(pady=5)
 
-    # Checks that password created meets the minimum length requirement
-    if len(password) < 6:
-        print("Password must be at least 6 characters.")
-        return None
+    label(main_frame, "Password").pack(pady=(8, 0))
+    new_password_entry = entry(main_frame, password=True)
+    new_password_entry.pack(pady=5)
 
-    # Creates a Student object using the new account details
-    new_student = Student(username, password)
+    label(main_frame, "Confirm Password").pack(pady=(8, 0))
+    confirm_password_entry = entry(main_frame, password=True)
+    confirm_password_entry.pack(pady=5)
 
-    # Adds the new student's details to the list of users
-    users.append({
-        "username": new_student.username,
-        "password": new_student.password
-    })
+    label(main_frame, "Password must be at least 6 characters.", ("Arial", 9)).pack(pady=5)
 
-    # Saves the updated user list to the JSON file
-    save_data("users.json", users)
-
-    print("Account created successfully!")
-    print("You are now logged in.")
-
-    # Returns the username so that student can be logged in immediately after sign up
-    return username
+    button(main_frame, "Create Account", create_account).pack(pady=(15, 8))
+    button(main_frame, "Back", login_screen).pack(pady=5)
 
 def login_form():
     global username_entry, password_entry
