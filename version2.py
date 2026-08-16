@@ -138,6 +138,22 @@ def clear_screen():
     for widget in root.winfo_children():
         widget.destroy()
 
+def create_button(parent, text, command, width=25):
+    return tk.Button(
+        parent,
+        text=text,
+        command=command,
+        width=width,
+        font=BUTTON_FONT,
+        bg=PRIMARY,
+        fg=WHITE,
+        activebackground=SECONDARY,
+        activeforeground=TEXT,
+        relief="flat",
+        cursor="hand2",
+        pady=6
+    )
+
 # Displays all avaliable opportunities if selected
 def view_opportunities():
     opportunities = get_opportunities()
