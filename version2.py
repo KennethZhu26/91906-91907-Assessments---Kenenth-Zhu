@@ -49,156 +49,6 @@ def save_data(filename, data):
     with open(filename, "w") as file:
         json.dump(data, file, indent=4)
 
-# Account Functions
-
-# =========================
-# Signup
-# =========================
-
-def signup():
-    global new_username_entry, new_password_entry, confirm_password_entry
-    clear_screen()
-
-    main_frame = frame(root)
-    main_frame.pack(expand=True)
-
-    label(main_frame, "Create Account", HEADING_FONT, PRIMARY).pack(pady=(15, 20))
-
-    label(main_frame, "Username").pack()
-    new_username_entry = entry(main_frame)
-    new_username_entry.pack(pady=5)
-
-    label(main_frame, "Password").pack(pady=(8, 0))
-    new_password_entry = entry(main_frame, password=True)
-    new_password_entry.pack(pady=5)
-
-    label(main_frame, "Confirm Password").pack(pady=(8, 0))
-    confirm_password_entry = entry(main_frame, password=True)
-    confirm_password_entry.pack(pady=5)
-
-    label(main_frame, "Password must be at least 6 characters.", ("Arial", 9)).pack(pady=5)
-
-    button(main_frame, "Create Account", create_account).pack(pady=(15, 8))
-    button(main_frame, "Back", login_screen).pack(pady=5)
-
-def login_form():
-    global username_entry, password_entry
-
-    clear_screen()
-
-    main_frame = frame(root)
-    main_frame.pack(expand=True)
-
-    label(main_frame, "Login", HEADING_FONT, PRIMARY).pack(pady=(20, 25))
-
-    label(main_frame, "Username").pack()
-    username_entry = entry(main_frame)
-    username_entry.pack(pady=6)
-
-    label(main_frame, "Password").pack(pady=(10, 0))
-    password_entry = entry(main_frame, password=True)
-    password_entry.pack(pady=6)
-
-    button(main_frame, "Login", login).pack(pady=(20, 8))
-    button(main_frame, "Back", login_screen).pack(pady=5)
-
-def create_account():
-    global current_user
-
-    username = new_username_entry.get().strip()
-    password = new_password_entry.get()
-    confirm_password = confirm_password_entry.get()
-
-    if username == "":
-        messagebox.showerror("Error", "Please enter a username.")
-        new_username_entry.focus()
-        return
-
-    if password == "":
-        messagebox.showerror("Error", "Please enter a password.")
-        new_password_entry.focus()
-        return
-
-    if len(password) < 6:
-        messagebox.showerror(
-            "Password Error",
-            "Password must be at least 6 characters.\nPlease create a new password."
-        )
-        new_password_entry.delete(0, tk.END)
-        confirm_password_entry.delete(0, tk.END)
-        new_password_entry.focus()
-        return
-
-    if password != confirm_password:
-        messagebox.showerror(
-            "Password Error",
-            "Passwords do not match.\nPlease try again."
-        )
-        confirm_password_entry.delete(0, tk.END)
-        confirm_password_entry.focus()
-        return
-
-    users = load_data("users.json")
-
-    for user in users:
-        if user["username"] == username:
-            messagebox.showerror(
-                "Error",
-                "Username already exists.\nPlease choose another username."
-            )
-            new_username_entry.focus()
-            return
-
-    new_student = Student(username, password)
-
-    users.append({
-        "username": new_student.username,
-        "password": new_student.password
-    })
-
-    save_data("users.json", users)
-
-    current_user = username
-
-    messagebox.showinfo(
-        "Account Created",
-        "Account created successfully!\nYou are now logged in."
-    )
-
-# =========================
-# Login
-# =========================
-
-def login():
-    global current_user
-
-    username = username_entry.get().strip()
-    password = password_entry.get()
-
-    if username == "":
-        messagebox.showerror("Error", "Please enter your username.")
-        username_entry.focus()
-        return
-
-    if password == "":
-        messagebox.showerror("Error", "Please enter your password.")
-        password_entry.focus()
-        return
-
-    users = load_data("users.json")
-
-    for user in users:
-        if user["username"] == username and user["password"] == password:
-            current_user = username
-            messagebox.showinfo("Login Successful", "Welcome back, " + username + "!")
-            return
-
-    messagebox.showerror("Login Failed", "Incorrect username or password.")
-    password_entry.delete(0, tk.END)
-    password_entry.focus()
-
-# Opportunity Functions
-
 # Loads opportunities from the JSON file and the converts them into Opportunity objects
 def get_opportunities():
     data = load_data("opportunities.json")
@@ -237,11 +87,8 @@ HEADING_FONT = ("Arial", 18, "bold")
 NORMAL_FONT = ("Arial", 11)
 BUTTON_FONT = ("Arial", 11, "bold")
 
+current_user = None
 root.configure(bg=BACKGROUND)
-
-# =========================
-# GUI Helper Functions
-# =========================
 
 def clear_screen():
     for widget in root.winfo_children():
@@ -249,68 +96,233 @@ def clear_screen():
 
 
 def label(parent, text, font=NORMAL_FONT, colour=TEXT):
-    return tk.Label(
-        parent,
-        text=text,
-        font=font,
-        bg=BACKGROUND,
-        fg=colour
-    )
+    return tk.Label(parent, text=text, font=font, bg=BACKGROUND, fg=colour)
 
 
 def button(parent, text, command, width=25):
     return tk.Button(
-        parent,
-        text=text,
-        command=command,
-        width=width,
-        font=BUTTON_FONT,
-        bg=PRIMARY,
-        fg=WHITE
+        parent, text=text, command=command, width=width,
+        font=BUTTON_FONT, bg=PRIMARY, fg=WHITE
     )
 
 
 def entry(parent, width=30, password=False):
     if password:
-        return tk.Entry(
-            parent,
-            width=width,
-            font=NORMAL_FONT,
-            show="*"
-        )
-
-    return tk.Entry(
-        parent,
-        width=width,
-        font=NORMAL_FONT
-    )
+        return tk.Entry(parent, width=width, font=NORMAL_FONT, show="*")
+    return tk.Entry(parent, width=width, font=NORMAL_FONT)
 
 
 def frame(parent):
-    return tk.Frame(
-        parent,
-        bg=BACKGROUND
-    )
+    return tk.Frame(parent, bg=BACKGROUND)
 
-# Displays all avaliable opportunities if selected
-def view_opportunities():
-    opportunities = get_opportunities()
 
-    print("\n===== Available Opportunities =====")
 
-    # Checks whether there are any opportunities to display
-    if len(opportunities) == 0:
-        print("No opportunities available.")
+def login_screen():
+    clear_screen()
+
+    main_frame = frame(root)
+    main_frame.pack(expand=True)
+
+    label(main_frame, "Opportunity Tracker", TITLE_FONT, PRIMARY).pack(pady=(40, 10))
+    label(main_frame, "Manage your opportunities in one place").pack(pady=(0, 30))
+
+    button(main_frame, "Login", login_form).pack(pady=8)
+    button(main_frame, "Create Account", signup).pack(pady=8)
+    button(main_frame, "Exit", exit_program).pack(pady=8)
+
+def login_form():
+    global username_entry, password_entry
+
+    clear_screen()
+
+    main_frame = frame(root)
+    main_frame.pack(expand=True)
+
+    label(main_frame, "Login", HEADING_FONT, PRIMARY).pack(pady=(20, 25))
+
+    label(main_frame, "Username").pack()
+    username_entry = entry(main_frame)
+    username_entry.pack(pady=6)
+
+    label(main_frame, "Password").pack(pady=(10, 0))
+    password_entry = entry(main_frame, password=True)
+    password_entry.pack(pady=6)
+
+    button(main_frame, "Login", login).pack(pady=(20, 8))
+    button(main_frame, "Back", login_screen).pack(pady=5)
+
+def login():
+    global current_user
+
+    username = username_entry.get().strip()
+    password = password_entry.get()
+
+    if username == "":
+        messagebox.showerror("Error", "Please enter your username.")
+        username_entry.focus()
         return
 
-    # Displays the details of each avaliable opportunity
-    for opportunity in opportunities:
-        print("-------------------------")
-        print("ID:", opportunity.id)
-        print("Name:", opportunity.name)
-        print("Type:", opportunity.type)
-        print("Organisation:", opportunity.organisation)
-        print("Deadline:", opportunity.deadline)
+    if password == "":
+        messagebox.showerror("Error", "Please enter your password.")
+        password_entry.focus()
+        return
+
+    users = load_data("users.json")
+
+    for user in users:
+        if user["username"] == username and user["password"] == password:
+            current_user = username
+            messagebox.showinfo("Login Successful", "Welcome back, " + username + "!")
+            main_menu()
+
+    messagebox.showerror("Login Failed", "Incorrect username or password.")
+    password_entry.delete(0, tk.END)
+    password_entry.focus()
+
+
+def signup():
+    global new_username_entry, new_password_entry, confirm_password_entry
+    clear_screen()
+
+    main_frame = frame(root)
+    main_frame.pack(expand=True)
+
+    label(main_frame, "Create Account", HEADING_FONT, PRIMARY).pack(pady=(15, 20))
+
+    label(main_frame, "Username").pack()
+    new_username_entry = entry(main_frame)
+    new_username_entry.pack(pady=5)
+
+    label(main_frame, "Password").pack(pady=(8, 0))
+    new_password_entry = entry(main_frame, password=True)
+    new_password_entry.pack(pady=5)
+
+    label(main_frame, "Confirm Password").pack(pady=(8, 0))
+    confirm_password_entry = entry(main_frame, password=True)
+    confirm_password_entry.pack(pady=5)
+
+    label(main_frame, "Password must be at least 6 characters.", ("Arial", 9)).pack(pady=5)
+
+    button(main_frame, "Create Account", create_account).pack(pady=(15, 8))
+    button(main_frame, "Back", login_screen).pack(pady=5)
+
+
+    def create_account():
+        global current_user
+
+        username = new_username_entry.get().strip()
+        password = new_password_entry.get()
+        confirm_password = confirm_password_entry.get()
+
+        if username == "":
+            messagebox.showerror("Error", "Please enter a username.")
+            new_username_entry.focus()
+            return
+
+        if password == "":
+            messagebox.showerror("Error", "Please enter a password.")
+            new_password_entry.focus()
+            return
+
+        if len(password) < 6:
+            messagebox.showerror(
+                "Password Error",
+                "Password must be at least 6 characters.\nPlease create a new password."
+            )
+            new_password_entry.delete(0, tk.END)
+            confirm_password_entry.delete(0, tk.END)
+            new_password_entry.focus()
+            return
+
+        if password != confirm_password:
+            messagebox.showerror(
+                "Password Error",
+                "Passwords do not match.\nPlease try again."
+            )
+            confirm_password_entry.delete(0, tk.END)
+            confirm_password_entry.focus()
+            return
+
+        users = load_data("users.json")
+
+        for user in users:
+            if user["username"] == username:
+                messagebox.showerror(
+                    "Error",
+                    "Username already exists.\nPlease choose another username."
+                )
+                new_username_entry.focus()
+                return
+
+        new_student = Student(username, password)
+
+        users.append({
+            "username": new_student.username,
+            "password": new_student.password
+        })
+
+        save_data("users.json", users)
+
+        current_user = username
+
+        messagebox.showinfo("Account Created", "Account created successfully!\nYou are now logged in.")
+        main_menu()
+
+    button(main_frame, "Create Account", create_account).pack(pady=(15, 8))
+    button(main_frame, "Back", login_screen).pack(pady=5)
+
+
+
+def main_menu():
+    clear_screen()
+
+    main_frame = frame(root)
+    main_frame.pack(expand=True)
+
+    label(main_frame, "Opportunity Tracker", TITLE_FONT, PRIMARY).pack(pady=(30, 10))
+    label(main_frame, "Welcome, " + current_user, HEADING_FONT).pack(pady=(0, 30))
+
+    button(main_frame, "View Opportunities", view_opportunities).pack(pady=8)
+    button(main_frame, "Apply for Opportunity", apply_opportunity).pack(pady=8)
+    button(main_frame, "Logout", logout).pack(pady=8)
+
+
+
+def view_opportunities():
+    clear_screen()
+
+    label(root, "Available Opportunities", HEADING_FONT, PRIMARY).pack(pady=15)
+
+    opportunities = get_opportunities()
+
+    if len(opportunities) == 0:
+        label(root, "No opportunities available.").pack(pady=30)
+    else:
+        canvas = tk.Canvas(root, bg=BACKGROUND, highlightthickness=0)
+        canvas.pack(side="left", fill="both", expand=True, padx=(20, 0), pady=5)
+
+        scrollbar = tk.Scrollbar(root, orient="vertical", command=canvas.yview)
+        scrollbar.pack(side="right", fill="y", padx=(0, 20), pady=5)
+
+        canvas.configure(yscrollcommand=scrollbar.set)
+
+        opportunity_frame = frame(canvas)
+        canvas.create_window((0, 0), window=opportunity_frame, anchor="nw")
+
+        for opportunity in opportunities:
+            card = tk.Frame(opportunity_frame, bg=WHITE, bd=1, relief="solid")
+            card.pack(fill="x", padx=10, pady=8)
+
+            tk.Label(card, text=opportunity.name, font=("Arial", 13, "bold"), bg=WHITE, fg=PRIMARY).pack(anchor="w", padx=12, pady=(10, 4))
+            tk.Label(card, text="ID: " + str(opportunity.id), font=NORMAL_FONT, bg=WHITE, fg=TEXT).pack(anchor="w", padx=12)
+            tk.Label(card, text="Type: " + opportunity.type, font=NORMAL_FONT, bg=WHITE, fg=TEXT).pack(anchor="w", padx=12)
+            tk.Label(card, text="Organisation: " + opportunity.organisation, font=NORMAL_FONT, bg=WHITE, fg=TEXT).pack(anchor="w", padx=12)
+            tk.Label(card, text="Deadline: " + opportunity.deadline, font=NORMAL_FONT, bg=WHITE, fg=TEXT).pack(anchor="w", padx=12, pady=(0, 10))
+
+        opportunity_frame.update_idletasks()
+        canvas.configure(scrollregion=canvas.bbox("all"))
+
+    button(root, "Back", main_menu, width=15).pack(pady=10)
 
 # Allows student to apply for opportunity using its corresponding ID
 def apply_opportunity(username):
@@ -352,20 +364,6 @@ def apply_opportunity(username):
 
     # Runs if entered ID does not match with any avaliable opportunities
     print("Opportunity not found.")
-
-def login_screen():
-    clear_screen()
-
-    main_frame = frame(root)
-    main_frame.pack(expand=True)
-
-    label(main_frame, "Opportunity Tracker", TITLE_FONT, PRIMARY).pack(pady=(40, 10))
-    label(main_frame, "Manage your opportunities in one place").pack(pady=(0, 30))
-
-    button(main_frame, "Login", login_form).pack(pady=8)
-    button(main_frame, "Create Account", signup).pack(pady=8)
-    button(main_frame, "Exit", exit_program).pack(pady=8)
-
 
 
 login_screen()
