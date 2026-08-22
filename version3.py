@@ -371,6 +371,29 @@ def get_application_status(opportunity_id):
 
     return "Available"
 
+def apply_to_opportunity(opportunity):
+    applications = load_data("applications.json")
+
+    for application in applications:
+        if application["username"] == current_user and application["opportunity_id"] == opportunity.id:
+            messagebox.showerror("Already Applied", "You have already applied for this opportunity.")
+            return
+
+    new_application = Application(current_user, opportunity.id, opportunity.name, "Applied")
+
+    applications.append({
+        "username": new_application.username,
+        "opportunity_id": new_application.opportunity_id,
+        "opportunity_name": new_application.opportunity_name,
+        "status": new_application.status
+    })
+
+    save_data("applications.json", applications)
+
+    messagebox.showinfo("Application Submitted", "Your application for " + opportunity.name + " has been submitted successfully!")
+
+    view_opportunities()
+
 # -------------------
 # View Opportunities
 # -------------------
@@ -431,6 +454,13 @@ def view_opportunities():
         tk.Label(card, text="Type: " + opportunity.type, font=NORMAL_FONT, bg=card_background, fg=TEXT).pack(anchor="w", padx=12)
         tk.Label(card, text="Organisation: " + opportunity.organisation, font=NORMAL_FONT, bg=card_background, fg=TEXT).pack(anchor="w", padx=12)
         tk.Label(card, text="Deadline: " + opportunity.deadline, font=NORMAL_FONT, bg=card_background, fg=TEXT).pack(anchor="w", padx=12, pady=(0, 10))
+
+        if status == "Available":
+            apply_button = tk.Button(card, text="📝 Apply", command=lambda opp=opportunity: apply_to_opportunity(opp), font=BUTTON_FONT, bg=PRIMARY, fg=WHITE, activebackground=PRIMARY_DARK, activeforeground=WHITE, relief="flat", cursor="hand2")
+            apply_button.pack(anchor="e", padx=12, pady=(0, 10))
+
+            apply_button.bind("<Enter>", lambda event: event.widget.configure(bg=PRIMARY_DARK))
+            apply_button.bind("<Leave>", lambda event: event.widget.configure(bg=PRIMARY))
 
         # Updates the scrollable area to fit all opportunity cards
         opportunity_frame.update_idletasks()
