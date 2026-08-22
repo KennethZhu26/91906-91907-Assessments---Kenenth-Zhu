@@ -2,7 +2,7 @@
 # Opportunity Tracker Program
 # ----------------------------
 
-import json
+import json # Imports JSON Module
 
 # --------
 # Classes
@@ -74,8 +74,7 @@ def signup():
         print("Password must be at least 6 characters.")
         return None
 
-    # Creates a Student object using the new account details
-    new_student = Student(username, password)
+    new_student = Student(username, password) # Creates a Student object using the new account details
 
     # Adds the new student's details to the list of users
     users.append({
@@ -83,14 +82,12 @@ def signup():
         "password": new_student.password
     })
 
-    # Saves the updated user list to the JSON file
-    save_data("users.json", users)
+    save_data("users.json", users) # Saves the updated user list to the JSON file
 
     print("Account created successfully!")
     print("You are now logged in.")
 
-    # Returns the username so that student can be logged in immediately after sign up
-    return username
+    return username # Returns the username so that student can be logged in immediately after sign up
 
 # Checks the username and password against the account details stored in users.json
 def login():
@@ -128,8 +125,7 @@ def get_opportunities():
             item["deadline"]
         )
 
-        # Adds each Opportunity object to opportunities list
-        opportunities.append(opportunity)
+        opportunities.append(opportunity) # Adds each Opportunity object to opportunities list
 
     return opportunities
 
@@ -185,8 +181,7 @@ def apply_opportunity(username):
                 "status": new_application.status
             })
 
-            # Saves the new application to applications.json
-            save_data("applications.json", applications)
+            save_data("applications.json", applications) # Saves the new application to applications.json
 
             print("Application submitted successfully!")
             return
@@ -201,10 +196,8 @@ def apply_opportunity(username):
 # Controls the main flow of the program and determines which menu user should see
 # Menu shown depends on whether there is someone logged in or not
 def main():
-    # Corresponds to no student currently being logged in
-    current_user = None
+    current_user = None # Corresponds to no student currently being logged in
 
-    # Keeps the program running until user chooses to exit
     while True:
 
         #Displays login menu when no student is currently logged in
@@ -220,7 +213,7 @@ def main():
             if choice == "1":
                 current_user = login()
 
-            # reates a new account and then logs student in immediately after
+            # Creates a new account and then logs student in immediately after
             elif choice == "2":
                 current_user = signup()
 
@@ -258,5 +251,4 @@ def main():
             else:
                 print("Invalid option.")
 
-# Starts the program by calling the main function
-main()
+main() # Starts the program by calling the main function
