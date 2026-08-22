@@ -401,10 +401,33 @@ def apply_to_opportunity(opportunity):
 def view_opportunities():
     clear_screen()
 
-    label(root, "Available Opportunities", HEADING_FONT, PRIMARY).pack(pady=15)
+    label(root, "Available Opportunities", HEADING_FONT, PRIMARY).pack(pady=(12, 5))
 
-    # gets all opportunities from JSON file
+    # Search and filter area
+    search_frame = tk.Frame(root, bg=WHITE, bd=1, relief="solid")
+    search_frame.pack(fill="x", padx=20, pady=10)
+
+    tk.Label(search_frame, text="🔎 Search:", font=BUTTON_FONT, bg=WHITE, fg=TEXT).pack(side="left", padx=(10, 5), pady=10)
+
+    search_entry = tk.Entry(search_frame, width=20, font=NORMAL_FONT)
+    search_entry.pack(side="left", padx=5, pady=10)
+
+    tk.Label(search_frame, text="Filter:", font=BUTTON_FONT, bg=WHITE, fg=TEXT).pack(side="left", padx=(10, 5))
+
     opportunities = get_opportunities()
+
+    types = ["All Types"]
+
+    for opportunity in opportunities:
+        if opportunity.type not in types:
+            types.append(opportunity.type)
+
+    filter_var = tk.StringVar()
+    filter_var.set("All Types")
+
+    filter_menu = tk.OptionMenu(search_frame, filter_var, *types)
+    filter_menu.configure(font=NORMAL_FONT, width=12)
+    filter_menu.pack(side="left", padx=5)
 
     #Checks whether opportunities list is empty
     if len(opportunities) == 0:
