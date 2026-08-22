@@ -197,8 +197,8 @@ def login_form():
     password_entry = entry(main_frame, password=True)
     password_entry.pack(pady=6)
 
-    button(main_frame, "Login", login).pack(pady=(20, 8))
-    button(main_frame, "Back", login_screen).pack(pady=5)
+    button(main_frame, "🔑  Login", login).pack(pady=(20, 8))
+    button(main_frame, "←  Back", login_screen).pack(pady=5)
 
 # -----------------
 # Login Validation
@@ -342,8 +342,8 @@ def signup():
         messagebox.showinfo("Account Created", "Account created successfully!\nYou are now logged in.")
         main_menu()
 
-    button(main_frame, "Create Account", create_account).pack(pady=(15, 8))
-    button(main_frame, "Back", login_screen).pack(pady=5)
+    button(main_frame, "✓  Create Account", create_account).pack(pady=(15, 8))
+    button(main_frame, "←  Back", login_screen).pack(pady=5)
 
 # ----------
 # Main Menu
@@ -355,12 +355,12 @@ def main_menu():
     main_frame = frame(root)
     main_frame.pack(expand=True)
 
-    label(main_frame, "Opportunity Tracker", TITLE_FONT, PRIMARY).pack(pady=(30, 10))
+    label(main_frame, "★ Opportunity Tracker", TITLE_FONT, PRIMARY).pack(pady=(30, 10))
     label(main_frame, "Welcome, " + current_user, HEADING_FONT).pack(pady=(0, 30))
 
-    button(main_frame, "View Opportunities", view_opportunities).pack(pady=8)
-    button(main_frame, "Apply for Opportunity", apply_opportunity).pack(pady=8)
-    button(main_frame, "Logout", logout).pack(pady=8)
+    button(main_frame, "🔎  View Opportunities", view_opportunities).pack(pady=8)
+    button(main_frame, "📝  Apply for Opportunity", apply_opportunity).pack(pady=8)
+    button(main_frame, "🚪  Logout", logout).pack(pady=8)
 
 # -------------------
 # View Opportunities
@@ -500,8 +500,8 @@ def apply_opportunity():
         id_entry.delete(0, tk.END)
         id_entry.focus()
 
-    button(main_frame, "Submit Application", submit_application).pack(pady=10)
-    button(main_frame, "Back", main_menu).pack(pady=5)
+    button(main_frame, "✓  Submit Application", submit_application).pack(pady=10)
+    button(main_frame, "←  Back", main_menu).pack(pady=5)
 
 # ----------------
 # Logout Function
