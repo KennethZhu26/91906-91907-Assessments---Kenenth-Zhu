@@ -122,10 +122,18 @@ def label(parent, text, font=NORMAL_FONT, colour=TEXT):
 
 #Creates buttons with program's formatting
 def button(parent, text, command, width=25):
-    return tk.Button(
-        parent, text=text, command=command, width=width,
-        font=BUTTON_FONT, bg=PRIMARY, fg=WHITE
-    )
+    btn = tk.Button(parent, text=text, command=command, width=width, font=BUTTON_FONT, bg=PRIMARY, fg=WHITE, activebackground=PRIMARY_DARK, activeforeground=WHITE, relief="flat", cursor="hand2")
+
+    def mouse_enter(event):
+        btn.configure(bg=PRIMARY_DARK)
+
+    def mouse_leave(event):
+        btn.configure(bg=PRIMARY)
+
+    btn.bind("<Enter>", mouse_enter)
+    btn.bind("<Leave>", mouse_leave)
+
+    return btn
 
 # Creates an input box
 def entry(parent, width=30, password=False):
