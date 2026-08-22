@@ -450,45 +450,80 @@ def view_opportunities():
         # Places frame inside Canvas with top left corner as anchor
         canvas.create_window((0, 0), window=opportunity_frame, anchor="nw")
 
-        # Goes through every Opportunity objet
+    def display_opportunities():
+        for widget in opportunity_frame.winfo_children():
+            widget.destroy()
+
+        search_text = search_entry.get().strip().lower()
+        selected_type = filter_var.get()
+
+        filtered = []
+
         for opportunity in opportunities:
-            status = get_application_status(opportunity.id)
+            searchable_text = (str(opportunity.id) + " " + opportunity.name + " " + opportunity.type + " " + opportunity.organisation).lower()
 
-        if status == "Applied":
-            card_background = LIGHT_GREEN
+            search_matches = search_text == "" or search_text in searchable_text
+            type_matches = selected_type == "All Types" or opportunity.type == selected_type
+
+            if search_matches and type_matches:
+                filtered.append(opportunity)
+
+        if not filtered:
+            tk.Label(opportunity_frame, text="No opportunities match your search.", font=NORMAL_FONT, bg=BACKGROUND, fg=GREY).pack(pady=30)
         else:
-            card_background = WHITE
+            for opportunity in filtered:
+                status = get_application_status(opportunity.id)
 
-        card = tk.Frame(opportunity_frame, bg=card_background, bd=1, relief="solid")
-        card.pack(fill="x", padx=10, pady=7)
+            if status == "Applied":
+                card_background = LIGHT_GREEN
+            else:
+                card_background = WHITE
 
-        tk.Label(card, text=opportunity.name, font=("Arial", 13, "bold"), bg=card_background, fg=PRIMARY).pack(anchor="w", padx=12, pady=(10, 4))
+            card = tk.Frame(opportunity_frame, bg=card_background, bd=1, relief="solid")
+            card.pack(fill="x", padx=10, pady=7)
 
-        if status == "Applied":
-            status_text = "✓ Applied"
-            status_colour = GREEN
-        else:
-            status_text = "● Available"
-            status_colour = GREY
+            tk.Label(card, text=opportunity.name, font=("Arial", 13, "bold"), bg=card_background, fg=PRIMARY).pack(anchor="w", padx=12, pady=(10, 4))
 
-        tk.Label(card, text=status_text, font=("Arial", 10, "bold"), bg=card_background, fg=status_colour).pack(anchor="w", padx=12, pady=(0, 5))
+            if status == "Applied":
+                status_text = "✓ Applied"
+                status_colour = GREEN
+            else:
+                status_text = "● Available"
+                status_colour = GREY
 
-        tk.Label(card, text="ID: " + str(opportunity.id), font=NORMAL_FONT, bg=card_background, fg=TEXT).pack(anchor="w", padx=12)
-        tk.Label(card, text="Type: " + opportunity.type, font=NORMAL_FONT, bg=card_background, fg=TEXT).pack(anchor="w", padx=12)
-        tk.Label(card, text="Organisation: " + opportunity.organisation, font=NORMAL_FONT, bg=card_background, fg=TEXT).pack(anchor="w", padx=12)
-        tk.Label(card, text="Deadline: " + opportunity.deadline, font=NORMAL_FONT, bg=card_background, fg=TEXT).pack(anchor="w", padx=12, pady=(0, 10))
+            tk.Label(card, text=status_text, font=("Arial", 10, "bold"), bg=card_background, fg=status_colour).pack(anchor="w", padx=12, pady=(0, 5))
 
-        if status == "Available":
-            apply_button = tk.Button(card, text="📝 Apply", command=lambda opp=opportunity: apply_to_opportunity(opp), font=BUTTON_FONT, bg=PRIMARY, fg=WHITE, activebackground=PRIMARY_DARK, activeforeground=WHITE, relief="flat", cursor="hand2")
-            apply_button.pack(anchor="e", padx=12, pady=(0, 10))
+            tk.Label(card, text="ID: " + str(opportunity.id), font=NORMAL_FONT, bg=card_background, fg=TEXT).pack(anchor="w", padx=12)
+            tk.Label(card, text="Type: " + opportunity.type, font=NORMAL_FONT, bg=card_background, fg=TEXT).pack(anchor="w", padx=12)
+            tk.Label(card, text="Organisation: " + opportunity.organisation, font=NORMAL_FONT, bg=card_background, fg=TEXT).pack(anchor="w", padx=12)
+            tk.Label(card, text="Deadline: " + opportunity.deadline, font=NORMAL_FONT, bg=card_background, fg=TEXT).pack(anchor="w", padx=12, pady=(0, 10))
 
-            apply_button.bind("<Enter>", lambda event: event.widget.configure(bg=PRIMARY_DARK))
-            apply_button.bind("<Leave>", lambda event: event.widget.configure(bg=PRIMARY))
+            if status == "Available":
+                apply_button = tk.Button(card, text="📝 Apply", command=lambda opp=opportunity: apply_to_opportunity(opp), font=BUTTON_FONT, bg=PRIMARY, fg=WHITE, activebackground=PRIMARY_DARK, activeforeground=WHITE, relief="flat", cursor="hand2")
+                apply_button.pack(anchor="e", padx=12, pady=(0, 10))
+
+                apply_button.bind("<Enter>", lambda event: event.widget.configure(bg=PRIMARY_DARK))
+                apply_button.bind("<Leave>", lambda event: event.widget.configure(bg=PRIMARY))
 
         # Updates the scrollable area to fit all opportunity cards
         opportunity_frame.update_idletasks()
         # Tells the Canvas how large scrollable area (area containing all objects)
         canvas.configure(scrollregion=canvas.bbox("all"))
+
+    search_button = tk.Button(search_frame, text="Search", command=display_opportunities, font=BUTTON_FONT, bg=PRIMARY, fg=WHITE, relief="flat", cursor="hand2")
+    search_button.pack(side="left", padx=5)
+
+    def clear_filters():
+        search_entry.delete(0, tk.END)
+        filter_var.set("All Types")
+        display_opportunities()
+
+    clear_button = tk.Button(search_frame, text="Clear", command=clear_filters, font=BUTTON_FONT, bg=GREY, fg=WHITE, relief="flat", cursor="hand2")
+    clear_button.pack(side="left", padx=5)
+
+    search_entry.bind("<Return>", lambda event: display_opportunities())
+
+    display_opportunities()
 
     button(root, "Back", main_menu, width=15).pack(pady=10)
 
