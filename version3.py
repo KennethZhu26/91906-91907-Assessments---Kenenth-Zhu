@@ -646,8 +646,5 @@ def logout():
 # Starting the program
 # ---------------------
 
-# Calls function and starts by displaying login screen
-login_screen()
-
-# Keeps Tkinter window running and waits for interactions
-root.mainloop()
+login_screen() # Calls function and starts by displaying login screen
+root.mainloop() # Keeps Tkinter window running and waits for interactions
