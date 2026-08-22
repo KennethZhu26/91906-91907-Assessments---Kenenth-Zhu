@@ -362,6 +362,15 @@ def main_menu():
     button(main_frame, "📝  Apply for Opportunity", apply_opportunity).pack(pady=8)
     button(main_frame, "🚪  Logout", logout).pack(pady=8)
 
+def get_application_status(opportunity_id):
+    applications = load_data("applications.json")
+
+    for application in applications:
+        if application["username"] == current_user and application["opportunity_id"] == opportunity_id:
+            return application["status"]
+
+    return "Available"
+
 # -------------------
 # View Opportunities
 # -------------------
