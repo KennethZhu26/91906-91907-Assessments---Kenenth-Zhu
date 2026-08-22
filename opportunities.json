@@ -1,16 +1,72 @@
 [
     {
         "id": 1,
-        "name": "University Scholarship",
+        "name": "Vice-Chancellor's Scholarship",
         "type": "Scholarship",
         "organisation": "University of Auckland",
         "deadline": "01/09/2026"
     },
     {
         "id": 2,
-        "name": "Software Internship",
+        "name": "Spark Internship",
         "type": "Internship",
-        "organisation": "Tech Company",
+        "organisation": "Spark",
         "deadline": "15/10/2026"
     }
+    {
+        "id": 3,
+        "name": "Youth Leadership Programme",
+        "type": "Leadership",
+        "organisation": "Auckland Council",
+        "deadline": "15/09/2026"
+    },
+    {
+        "id": 4,
+        "name": "Digital Technologies Internship",
+        "type": "Technology",
+        "organisation": "TechNZ",
+        "deadline": "20/09/2026"
+    },
+    {
+        "id": 5,
+        "name": "Environmental Volunteer Project",
+        "type": "Volunteering",
+        "organisation": "Auckland Conservation",
+        "deadline": "25/09/2026"
+    },
+    {
+        "id": 6,
+        "name": "Business Mentoring Programme",
+        "type": "Business",
+        "organisation": "Young Enterprise",
+        "deadline": "30/09/2026"
+    },
+    {
+        "id": 7,
+        "name": "Creative Arts Workshop",
+        "type": "Arts",
+        "organisation": "Auckland Arts Centre",
+        "deadline": "10/10/2026"
+    },
+    {
+        "id": 8,
+        "name": "Engineering Experience Programme",
+        "type": "Engineering",
+        "organisation": "Future Engineers NZ",
+        "deadline": "15/10/2026"
+    },
+    {
+        "id": 9,
+        "name": "Healthcare Careers Workshop",
+        "type": "Healthcare",
+        "organisation": "Health Careers NZ",
+        "deadline": "20/10/2026"
+    },
+    {
+        "id": 10,
+        "name": "Coding Competition",
+        "type": "Technology",
+        "organisation": "Code NZ",
+        "deadline": "25/10/2026"
+    },
 ]
