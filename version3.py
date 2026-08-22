@@ -81,7 +81,7 @@ def get_opportunities():
 # Creates the main Tkinter Window
 root = tk.Tk()
 root.title("Opportunity Tracker")
-root.geometry("600x600")
+root.geometry("700x700")
 root.resizable(False, False) # Prevents user from resizing window
 
 # Stores the username of the student who is currently logged in
@@ -90,9 +90,12 @@ current_user = None
 # Defines the cokours and fonts used for GUI
 BACKGROUND = "#F2F4F7"
 PRIMARY = "#2F5D8C"
-SECONDARY = "#E8EEF5"
+PRIMARY_DARK = "#24496F"
 TEXT = "#222222"
 WHITE = "#FFFFFF"
+GREEN = "#2E7D32"
+LIGHT_GREEN = "#E8F5E9"
+GREY = "#6B7280"
 
 TITLE_FONT = ("Arial", 24, "bold")
 HEADING_FONT = ("Arial", 18, "bold")
