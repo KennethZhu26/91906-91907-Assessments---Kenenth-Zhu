@@ -84,10 +84,9 @@ root.title("Opportunity Tracker")
 root.geometry("600x600")
 root.resizable(False, False) # Prevents user from resizing window
 
-# Stores the username of the student who is currently logged in
-current_user = None
+current_user = None # Stores the username of the student who is currently logged in
 
-# Defines the cokours and fonts used for GUI
+# Defines the colours and fonts used for GUI
 BACKGROUND = "#F2F4F7"
 PRIMARY = "#2F5D8C"
 SECONDARY = "#E8EEF5"
@@ -140,25 +139,23 @@ def exit_program():
     # Creates a pop-up window that asks a Yes/No question
     if messagebox.askyesno("Exit", "Are you sure you want to exit?"):
         messagebox.showinfo("Goodbye", "Thank you for using Opportunity Tracker!")
-        # Closes main Tkinter Window
-        root.destroy()
+        root.destroy() # Closes main Tkinter Window
 
 # -------------
 # Login Screen
 # -------------
 
 def login_screen():
-    #Removes everything currently displayed
-    clear_screen()
+    clear_screen() # Removes everything currently displayed
 
-    # Creates a frame inside main window
-    main_frame = frame(root)
-    # Places frame into the window and allows extra space to be used
-    main_frame.pack(expand=True)
+    main_frame = frame(root) # Creates a frame inside main window
+    main_frame.pack(expand=True) # Places frame into the window and allows extra space to be used
 
+    # Displays the program title and description
     label(main_frame, "Opportunity Tracker", TITLE_FONT, PRIMARY).pack(pady=(40, 10))
     label(main_frame, "Manage your opportunities in one place").pack(pady=(0, 30))
 
+    # Creates buttons for the main program options
     button(main_frame, "Login", login_form).pack(pady=8)
     button(main_frame, "Create Account", signup).pack(pady=8)
     button(main_frame, "Exit", exit_program).pack(pady=8)
@@ -168,8 +165,7 @@ def login_screen():
 # ------------
 
 def login_form():
-    #Allows function to create/change variables used by other functions
-    global username_entry, password_entry
+    global username_entry, password_entry # Allows function to create/change variables used by other functions
 
     clear_screen()
 
@@ -178,16 +174,16 @@ def login_form():
 
     label(main_frame, "Login", HEADING_FONT, PRIMARY).pack(pady=(20, 25))
 
-    label(main_frame, "Username").pack()
-    username_entry = entry(main_frame)
-    username_entry.pack(pady=6)
+    label(main_frame, "Username").pack() # Displays username label
+    username_entry = entry(main_frame) # Creates an input box for username
+    username_entry.pack(pady=6) # Places the username input box
 
-    label(main_frame, "Password").pack(pady=(10, 0))
-    password_entry = entry(main_frame, password=True)
-    password_entry.pack(pady=6)
+    label(main_frame, "Password").pack(pady=(10, 0)) # Displays password label
+    password_entry = entry(main_frame, password=True) # Creates a hidden password inout box
+    password_entry.pack(pady=6) # Places the password input box
 
-    button(main_frame, "Login", login).pack(pady=(20, 8))
-    button(main_frame, "Back", login_screen).pack(pady=5)
+    button(main_frame, "Login", login).pack(pady=(20, 8)) #Creates login button
+    button(main_frame, "Back", login_screen).pack(pady=5) # Creates back button
 
 # -----------------
 # Login Validation
@@ -195,8 +191,7 @@ def login_form():
 
 # Checks the user's login details against saved accounts
 def login():
-    # Allows function to change current_user
-    global current_user
+    global current_user # Allows function to change current_user
     # Retrieves text typed into entry-box and removes unnecessary space from start and end
     username = username_entry.get().strip()
     password = password_entry.get()
@@ -204,8 +199,7 @@ def login():
     # Checks whether username is entered
     if username == "":
         messagebox.showerror("Error", "Please enter your username.")
-        # Moves cursor back into username box
-        username_entry.focus()
+        username_entry.focus() # Moves cursor back into username box
         return
 
     # Checks whether password is entered
@@ -214,8 +208,7 @@ def login():
         password_entry.focus()
         return
 
-    #Loads all resigstered accounts from JSON file
-    users = load_data("users.json")
+    users = load_data("users.json") #Loads all resigstered accounts from JSON file
 
     # Searches through users to find matching details
     for user in users:
@@ -227,8 +220,7 @@ def login():
             return
 
     messagebox.showerror("Login Failed", "Incorrect username or password.")
-    # Deletes password that was entered
-    password_entry.delete(0, tk.END)
+    password_entry.delete(0, tk.END) # Deletes password that was entered
     password_entry.focus()
 
 # ---------------
@@ -255,7 +247,7 @@ def signup():
     confirm_password_entry = entry(main_frame, password=True)
     confirm_password_entry.pack(pady=5)
 
-    label(main_frame, "Password must be at least 6 characters.", ("Arial", 9)).pack(pady=5)
+    label(main_frame, "Password must be at least 6 characters.", ("Arial", 9)).pack(pady=5) # Displays the minimum password lengh requirement
 
     # Handles the account creation process
     def create_account():
@@ -283,10 +275,8 @@ def signup():
                 "Password Error",
                 "Password must be at least 6 characters.\nPlease create a new password."
             )
-            # Deletes incorrect password
-            new_password_entry.delete(0, tk.END)
-            # Deletes confirmation password
-            confirm_password_entry.delete(0, tk.END)
+            new_password_entry.delete(0, tk.END) # Deletes incorrect password
+            confirm_password_entry.delete(0, tk.END) # Deletes confirmation password
             new_password_entry.focus()
             return
 
@@ -300,8 +290,7 @@ def signup():
             confirm_password_entry.focus()
             return
 
-        # Loads existing users before adding new account
-        users = load_data("users.json")
+        users = load_data("users.json") # Loads existing users before adding new account
 
         # Checks whether username is already in use
         for user in users:
@@ -313,8 +302,7 @@ def signup():
                 new_username_entry.focus()
                 return
 
-        #Creates a Student object using validated information
-        new_student = Student(username, password)
+        new_student = Student(username, password) #Creates a Student object using validated information
 
         # Converts Student object into a dictionary for JSON storage
         users.append({
@@ -322,11 +310,9 @@ def signup():
             "password": new_student.password
         })
 
-        #Saves the updated user list
-        save_data("users.json", users)
+        save_data("users.json", users) #Saves the updated user list
 
-        #Automatically logs new user in
-        current_user = username
+        current_user = username #Automatically logs new user in
 
         messagebox.showinfo("Account Created", "Account created successfully!\nYou are now logged in.")
         main_menu()
@@ -360,29 +346,23 @@ def view_opportunities():
 
     label(root, "Available Opportunities", HEADING_FONT, PRIMARY).pack(pady=15)
 
-    # gets all opportunities from JSON file
-    opportunities = get_opportunities()
+    opportunities = get_opportunities()  # Gets all opportunities from JSON file
 
     #Checks whether opportunities list is empty
     if len(opportunities) == 0:
         label(root, "No opportunities available.").pack(pady=30)
     else:
-        # Creates an area that contains other widgets
-        canvas = tk.Canvas(root, bg=BACKGROUND, highlightthickness=0)
-        # Formatting Canvas
-        canvas.pack(side="left", fill="both", expand=True, padx=(20, 0), pady=5)
+        canvas = tk.Canvas(root, bg=BACKGROUND, highlightthickness=0) # Creates an area that contains other widgets
+        canvas.pack(side="left", fill="both", expand=True, padx=(20, 0), pady=5) # Formatting Canvas
 
         # Creates a vertical scrollbar on the right
         scrollbar = tk.Scrollbar(root, orient="vertical", command=canvas.yview)
         scrollbar.pack(side="right", fill="y", padx=(0, 20), pady=5)
 
-        #Connects scrollbar to the canvas
-        canvas.configure(yscrollcommand=scrollbar.set)
+        canvas.configure(yscrollcommand=scrollbar.set) #Connects scrollbar to the canvas
 
-        # Places opportunities inside this frame
-        opportunity_frame = frame(canvas)
-        # Places frame inside Canvas with top left corner as anchor
-        canvas.create_window((0, 0), window=opportunity_frame, anchor="nw")
+        opportunity_frame = frame(canvas) # Places opportunities inside this frame
+        canvas.create_window((0, 0), window=opportunity_frame, anchor="nw") # Places frame inside Canvas with top left corner as anchor
 
         # Goes through every Opportunity objet
         for opportunity in opportunities:
@@ -395,10 +375,8 @@ def view_opportunities():
             tk.Label(card, text="Organisation: " + opportunity.organisation, font=NORMAL_FONT, bg=WHITE, fg=TEXT).pack(anchor="w", padx=12)
             tk.Label(card, text="Deadline: " + opportunity.deadline, font=NORMAL_FONT, bg=WHITE, fg=TEXT).pack(anchor="w", padx=12, pady=(0, 10))
 
-        # Updates the scrollable area to fit all opportunity cards
-        opportunity_frame.update_idletasks()
-        # Tells the Canvas how large scrollable area (area containing all objects)
-        canvas.configure(scrollregion=canvas.bbox("all"))
+        opportunity_frame.update_idletasks() # Updates the scrollable area to fit all opportunity cards
+        canvas.configure(scrollregion=canvas.bbox("all")) # Tells the Canvas how large scrollable area (area containing all objects)
 
     button(root, "Back", main_menu, width=15).pack(pady=10)
 
@@ -420,8 +398,7 @@ def apply_opportunity():
 
     #Handles application submission
     def submit_application():
-        # Gets the text entered into ID box
-        value = id_entry.get().strip()
+        value = id_entry.get().strip() # Gets the text entered into ID box
 
         # Checks user has entered an ID
         if value == "":
@@ -434,15 +411,12 @@ def apply_opportunity():
             choice = int(value)
         except ValueError:
             messagebox.showerror("Error", "Opportunity ID must be a number.")
-            # Clears the invalid input
-            id_entry.delete(0, tk.END)
+            id_entry.delete(0, tk.END) # Clears the invalid input
             id_entry.focus()
             return
 
-        # Loads all avaliable opportunities
-        opportunities = get_opportunities()
-        # Loads all existing applications
-        applications = load_data("applications.json")
+        opportunities = get_opportunities() # Loads all avaliable opportunities
+        applications = load_data("applications.json") # Loads all existing applications
 
         # Searches for an opportunity matching with the entered ID
         for opportunity in opportunities:
@@ -485,8 +459,7 @@ def apply_opportunity():
                 return
 
         messagebox.showerror("Error", "Opportunity not found.")
-        # Clears invalid opportunity ID
-        id_entry.delete(0, tk.END)
+        id_entry.delete(0, tk.END) # Clears invalid opportunity ID
         id_entry.focus()
 
     button(main_frame, "Submit Application", submit_application).pack(pady=10)
@@ -510,8 +483,5 @@ def logout():
 # Starting the program
 # ---------------------
 
-# Calls function and starts by displaying login screen
-login_screen()
-
-# Keeps Tkinter window running and waits for interactions
-root.mainloop()
+login_screen() # Calls function and starts by displaying login screen
+root.mainloop() # Keeps Tkinter window running and waits for interactions
