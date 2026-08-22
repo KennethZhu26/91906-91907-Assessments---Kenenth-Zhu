@@ -12,7 +12,7 @@
         "type": "Internship",
         "organisation": "Spark",
         "deadline": "15/10/2026"
-    }
+    },
     {
         "id": 3,
         "name": "Youth Leadership Programme",
@@ -69,4 +69,74 @@
         "organisation": "Code NZ",
         "deadline": "25/10/2026"
     },
+    {
+        "id": 11,
+        "name": "University Engineering Experience",
+        "type": "Engineering",
+        "organisation": "University of Auckland",
+        "deadline": "12/11/2026"
+    },
+    {
+        "id": 12,
+        "name": "Youth Climate Action Programme",
+        "type": "Environment",
+        "organisation": "Generation Zero",
+        "deadline": "18/11/2026"
+    },
+    {
+        "id": 13,
+        "name": "Digital Design Workshop",
+        "type": "Technology",
+        "organisation": "AUT",
+        "deadline": "25/11/2026"
+    },
+    {
+        "id": 14,
+        "name": "Community Leadership Programme",
+        "type": "Leadership",
+        "organisation": "Auckland Council",
+        "deadline": "30/11/2026"
+    },
+    {
+        "id": 15,
+        "name": "Youth Media Internship",
+        "type": "Media",
+        "organisation": "TVNZ",
+        "deadline": "10/12/2026"
+    },
+    {
+        "id": 16,
+        "name": "Future Scientists Workshop",
+        "type": "Science",
+        "organisation": "University of Auckland",
+        "deadline": "15/12/2026"
+    },
+    {
+        "id": 17,
+        "name": "Student Photography Competition",
+        "type": "Arts",
+        "organisation": "Auckland Arts Festival",
+        "deadline": "20/12/2026"
+    },
+    {
+        "id": 18,
+        "name": "Youth Sports Leadership Programme",
+        "type": "Sports",
+        "organisation": "Sport New Zealand",
+        "deadline": "10/01/2027"
+    },
+    {
+        "id": 19,
+        "name": "Community Tutoring Programme",
+        "type": "Volunteering",
+        "organisation": "Auckland Libraries",
+        "deadline": "15/01/2027"
+    },
+    {
+        "id": 20,
+        "name": "Japanese Cultural Exchange",
+        "type": "Cultural",
+        "organisation": "Japan Foundation",
+        "deadline": "05/12/2026"
+    }
 ]
