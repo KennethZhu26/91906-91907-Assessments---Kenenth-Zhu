@@ -406,14 +406,31 @@ def view_opportunities():
 
         # Goes through every Opportunity objet
         for opportunity in opportunities:
-            card = tk.Frame(opportunity_frame, bg=WHITE, bd=1, relief="solid")
-            card.pack(fill="x", padx=10, pady=8)
+            status = get_application_status(opportunity.id)
 
-            tk.Label(card, text=opportunity.name, font=("Arial", 13, "bold"), bg=WHITE, fg=PRIMARY).pack(anchor="w", padx=12, pady=(10, 4))
-            tk.Label(card, text="ID: " + str(opportunity.id), font=NORMAL_FONT, bg=WHITE, fg=TEXT).pack(anchor="w", padx=12)
-            tk.Label(card, text="Type: " + opportunity.type, font=NORMAL_FONT, bg=WHITE, fg=TEXT).pack(anchor="w", padx=12)
-            tk.Label(card, text="Organisation: " + opportunity.organisation, font=NORMAL_FONT, bg=WHITE, fg=TEXT).pack(anchor="w", padx=12)
-            tk.Label(card, text="Deadline: " + opportunity.deadline, font=NORMAL_FONT, bg=WHITE, fg=TEXT).pack(anchor="w", padx=12, pady=(0, 10))
+        if status == "Applied":
+            card_background = LIGHT_GREEN
+        else:
+            card_background = WHITE
+
+        card = tk.Frame(opportunity_frame, bg=card_background, bd=1, relief="solid")
+        card.pack(fill="x", padx=10, pady=7)
+
+        tk.Label(card, text=opportunity.name, font=("Arial", 13, "bold"), bg=card_background, fg=PRIMARY).pack(anchor="w", padx=12, pady=(10, 4))
+
+        if status == "Applied":
+            status_text = "✓ Applied"
+            status_colour = GREEN
+        else:
+            status_text = "● Available"
+            status_colour = GREY
+
+        tk.Label(card, text=status_text, font=("Arial", 10, "bold"), bg=card_background, fg=status_colour).pack(anchor="w", padx=12, pady=(0, 5))
+
+        tk.Label(card, text="ID: " + str(opportunity.id), font=NORMAL_FONT, bg=card_background, fg=TEXT).pack(anchor="w", padx=12)
+        tk.Label(card, text="Type: " + opportunity.type, font=NORMAL_FONT, bg=card_background, fg=TEXT).pack(anchor="w", padx=12)
+        tk.Label(card, text="Organisation: " + opportunity.organisation, font=NORMAL_FONT, bg=card_background, fg=TEXT).pack(anchor="w", padx=12)
+        tk.Label(card, text="Deadline: " + opportunity.deadline, font=NORMAL_FONT, bg=card_background, fg=TEXT).pack(anchor="w", padx=12, pady=(0, 10))
 
         # Updates the scrollable area to fit all opportunity cards
         opportunity_frame.update_idletasks()
