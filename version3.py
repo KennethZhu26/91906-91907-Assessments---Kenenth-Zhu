@@ -474,36 +474,36 @@ def view_opportunities():
             for opportunity in filtered:
                 status = get_application_status(opportunity.id)
 
-            if status == "Applied":
-                card_background = LIGHT_GREEN
-            else:
-                card_background = WHITE
+                if status == "Applied":
+                    card_background = LIGHT_GREEN
+                else:
+                    card_background = WHITE
 
-            card = tk.Frame(opportunity_frame, bg=card_background, bd=1, relief="solid")
-            card.pack(fill="x", padx=10, pady=7)
+                card = tk.Frame(opportunity_frame, bg=card_background, bd=1, relief="solid")
+                card.pack(fill="x", padx=10, pady=7)
 
-            tk.Label(card, text=opportunity.name, font=("Arial", 13, "bold"), bg=card_background, fg=PRIMARY).pack(anchor="w", padx=12, pady=(10, 4))
+                tk.Label(card, text=opportunity.name, font=("Arial", 13, "bold"), bg=card_background, fg=PRIMARY).pack(anchor="w", padx=12, pady=(10, 4))
 
-            if status == "Applied":
-                status_text = "✓ Applied"
-                status_colour = GREEN
-            else:
-                status_text = "● Available"
-                status_colour = GREY
+                if status == "Applied":
+                    status_text = "✓ Applied"
+                    status_colour = GREEN
+                else:
+                    status_text = "● Available"
+                    status_colour = GREY
 
-            tk.Label(card, text=status_text, font=("Arial", 10, "bold"), bg=card_background, fg=status_colour).pack(anchor="w", padx=12, pady=(0, 5))
+                tk.Label(card, text=status_text, font=("Arial", 10, "bold"), bg=card_background, fg=status_colour).pack(anchor="w", padx=12, pady=(0, 5))
 
-            tk.Label(card, text="ID: " + str(opportunity.id), font=NORMAL_FONT, bg=card_background, fg=TEXT).pack(anchor="w", padx=12)
-            tk.Label(card, text="Type: " + opportunity.type, font=NORMAL_FONT, bg=card_background, fg=TEXT).pack(anchor="w", padx=12)
-            tk.Label(card, text="Organisation: " + opportunity.organisation, font=NORMAL_FONT, bg=card_background, fg=TEXT).pack(anchor="w", padx=12)
-            tk.Label(card, text="Deadline: " + opportunity.deadline, font=NORMAL_FONT, bg=card_background, fg=TEXT).pack(anchor="w", padx=12, pady=(0, 10))
+                tk.Label(card, text="ID: " + str(opportunity.id), font=NORMAL_FONT, bg=card_background, fg=TEXT).pack(anchor="w", padx=12)
+                tk.Label(card, text="Type: " + opportunity.type, font=NORMAL_FONT, bg=card_background, fg=TEXT).pack(anchor="w", padx=12)
+                tk.Label(card, text="Organisation: " + opportunity.organisation, font=NORMAL_FONT, bg=card_background, fg=TEXT).pack(anchor="w", padx=12)
+                tk.Label(card, text="Deadline: " + opportunity.deadline, font=NORMAL_FONT, bg=card_background, fg=TEXT).pack(anchor="w", padx=12, pady=(0, 10))
 
-            if status == "Available":
-                apply_button = tk.Button(card, text="📝 Apply", command=lambda opp=opportunity: apply_to_opportunity(opp), font=BUTTON_FONT, bg=PRIMARY, fg=WHITE, activebackground=PRIMARY_DARK, activeforeground=WHITE, relief="flat", cursor="hand2")
-                apply_button.pack(anchor="e", padx=12, pady=(0, 10))
+                if status == "Available":
+                    apply_button = tk.Button(card, text="📝 Apply", command=lambda opp=opportunity: apply_to_opportunity(opp), font=BUTTON_FONT, bg=PRIMARY, fg=WHITE, activebackground=PRIMARY_DARK, activeforeground=WHITE, relief="flat", cursor="hand2")
+                    apply_button.pack(anchor="e", padx=12, pady=(0, 10))
 
-                apply_button.bind("<Enter>", lambda event: event.widget.configure(bg=PRIMARY_DARK))
-                apply_button.bind("<Leave>", lambda event: event.widget.configure(bg=PRIMARY))
+                    apply_button.bind("<Enter>", lambda event: event.widget.configure(bg=PRIMARY_DARK))
+                    apply_button.bind("<Leave>", lambda event: event.widget.configure(bg=PRIMARY))
 
         # Updates the scrollable area to fit all opportunity cards
         opportunity_frame.update_idletasks()
@@ -525,7 +525,7 @@ def view_opportunities():
 
     display_opportunities()
 
-    button(root, "Back", main_menu, width=15).pack(pady=10)
+    button(root, "←  Back", main_menu, width=15).pack(pady=8, padx=(0, 80))
 
 # ------------------------
 # Opportunity Application
