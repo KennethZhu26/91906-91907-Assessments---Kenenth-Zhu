@@ -167,12 +167,12 @@ def login_screen():
     # Places frame into the window and allows extra space to be used
     main_frame.pack(expand=True)
 
-    label(main_frame, "Opportunity Tracker", TITLE_FONT, PRIMARY).pack(pady=(40, 10))
-    label(main_frame, "Manage your opportunities in one place").pack(pady=(0, 30))
+    label(main_frame, "★ Opportunity Tracker", TITLE_FONT, PRIMARY).pack(pady=(40, 10))
+    label(main_frame, "Find and manage opportunities in one place").pack(pady=(0, 30))
 
-    button(main_frame, "Login", login_form).pack(pady=8)
-    button(main_frame, "Create Account", signup).pack(pady=8)
-    button(main_frame, "Exit", exit_program).pack(pady=8)
+    button(main_frame, "🔑  Login", login_form).pack(pady=8)
+    button(main_frame, "👤  Create Account", signup).pack(pady=8)
+    button(main_frame, "✕  Exit", exit_program).pack(pady=8)
 
 # ------------
 # Login Form
