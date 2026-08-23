@@ -398,6 +398,42 @@ def apply_to_opportunity(opportunity):
 
     view_opportunities() # Refreshes the opportunities screen to show the updated application status
 
+# -------------------------
+# Unapply from Opportunity
+# -------------------------
+
+# Allows student to withdraw from an existing application
+def unapply_from_opportunity(opportunity):
+    applications = load_data("applications.json")
+
+    # Asks the user to confirm that they want to withdraw
+    confirm = messagebox.askyesno(
+        "Unapply",
+        "Are you sure you want to withdraw your application for " + opportunity.name + "?"
+    )
+
+    # Stops the function is user selected No
+    if not confirm:
+        return
+
+    updated_applications = [] # Creates a new list without the user's application
+
+    # Checks each application to find the one being withdrawn from
+    for application in applications:
+        if not (application["username"] == current_user and
+                application["opportunity_id"] == opportunity.id):
+            updated_applications.append(application)
+
+    save_data("applications.json", updated_applications) # Saves the updated application list
+
+    # Informs user that their application has been successfully withdrawn
+    messagebox.showinfo(
+        "Application Withdrawn",
+        "Your application for " + opportunity.name + " has been withdrawn."
+    )
+
+    view_opportunities() # Refreshes the opportunity screen
+
 # -------------------
 # View Opportunities
 # -------------------
