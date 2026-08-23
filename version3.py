@@ -547,14 +547,23 @@ def view_opportunities():
                 tk.Label(card, text="Organisation: " + opportunity.organisation, font=NORMAL_FONT, bg=card_background, fg=TEXT).pack(anchor="w", padx=12)
                 tk.Label(card, text="Deadline: " + opportunity.deadline, font=NORMAL_FONT, bg=card_background, fg=TEXT).pack(anchor="w", padx=12, pady=(0, 10))
 
-                # Adds an Apply button if the user has not already applied
+                # Handles process of removing existing application
                 if status == "Available":
+                    # Creates an Apply button for opportunities the student has not applied for
                     apply_button = tk.Button(card, text="📝 Apply", command=lambda opp=opportunity: apply_to_opportunity(opp), font=BUTTON_FONT, bg=PRIMARY, fg=WHITE, activebackground=PRIMARY_DARK, activeforeground=WHITE, relief="flat", cursor="hand2")
                     apply_button.pack(anchor="e", padx=12, pady=(0, 10))
 
-                    # Changes the button colour when mouse hovers the button
+                    # Button hover settings
                     apply_button.bind("<Enter>", lambda event: event.widget.configure(bg=PRIMARY_DARK))
                     apply_button.bind("<Leave>", lambda event: event.widget.configure(bg=PRIMARY))
+
+                else:
+                    # Creates an Unapply button for opportunities the student has already applied for
+                    unapply_button = tk.Button(card, text="↩ Unapply", command=lambda opp=opportunity: unapply_from_opportunity(opp), font=BUTTON_FONT, bg=GREY, fg=WHITE, relief="flat", cursor="hand2")
+                    unapply_button.pack(anchor="e", padx=12, pady=(0, 10))
+
+                    unapply_button.bind("<Enter>", lambda event: event.widget.configure(bg=PRIMARY_DARK))
+                    unapply_button.bind("<Leave>", lambda event: event.widget.configure(bg=GREY))
 
         opportunity_frame.update_idletasks() # Updates the scrollable area to fit all opportunity cards
         canvas.configure(scrollregion=canvas.bbox("all")) # Tells the Canvas how large scrollable area (area containing all objects)
