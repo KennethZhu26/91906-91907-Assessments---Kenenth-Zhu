@@ -350,7 +350,7 @@ def main_menu():
     label(main_frame, "Welcome, " + current_user, HEADING_FONT).pack(pady=(0, 30))
 
     button(main_frame, "🔎  View Opportunities", view_opportunities).pack(pady=8)
-    button(main_frame, "📝  Apply for Opportunity", apply_opportunity).pack(pady=8)
+    button(main_frame, "📝  My Applications", view_applications).pack(pady=8)
     button(main_frame, "🚪  Logout", logout).pack(pady=8)
 
 # -------------------
@@ -588,90 +588,60 @@ def view_opportunities():
 
     button(root, "←  Back", main_menu, width=15).pack(pady=8, padx=(0, 80))
 
-# ------------------------
-# Opportunity Application
-# ------------------------
+# ----------------
+# My Applications
+# ----------------
 
-def apply_opportunity():
+# Displays all opportunities the current user has applied for
+def view_applications():
     clear_screen()
 
-    main_frame = frame(root)
-    main_frame.pack(expand=True)
+    label(root, "📝  My Applications", HEADING_FONT, PRIMARY).pack(pady=(12, 5))
 
-    label(main_frame, "Apply for Opportunity", HEADING_FONT, PRIMARY).pack(pady=20)
-    label(main_frame, "Enter Opportunity ID:").pack()
+    applications = load_data("applications.json")
+    user_applications = []
 
-    # Creates an input field for opportunity ID
-    id_entry = entry(main_frame, width=20)
-    id_entry.pack(pady=10)
+    # Finds applications belonging to the current user
+    for application in applications:
+        if application["username"] == current_user:
+            user_applications.append(application)
 
-    #Handles application submission
-    def submit_application():
-        value = id_entry.get().strip() # Gets the text entered into ID box
+    user_applications.sort(key=lambda application: application["opportunity_id"]) # Sorts applications by opportunity ID
 
-        # Checks user has entered an ID
-        if value == "":
-            messagebox.showerror("Error", "Please enter an opportunity ID.")
-            id_entry.focus()
-            return
+    # Checks whether the user has any applications
+    if len(user_applications) == 0:
+        label(root, "You have not applied for any opportunities yet.").pack(pady=30)
 
-        #Checks that ID is a number
-        try:
-            choice = int(value)
-        except ValueError:
-            messagebox.showerror("Error", "Opportunity ID must be a number.")
-            id_entry.delete(0, tk.END) # Clears the invalid input
-            id_entry.focus()
-            return
+    else:
+        # Creates an area that contains the application cards
+        canvas = tk.Canvas(root, bg=BACKGROUND, highlightthickness=0)
+        canvas.pack(side="left", fill="both", expand=True, padx=(20, 0), pady=5)
 
-        opportunities = get_opportunities() # Loads all avaliable opportunities
-        applications = load_data("applications.json") # Loads all existing applications
+        # Creates a vertical scrollbar
+        scrollbar = tk.Scrollbar(root, orient="vertical", command=canvas.yview)
+        scrollbar.pack(side="right", fill="y", padx=(0, 20), pady=5)
 
-        # Searches for an opportunity matching with the entered ID
-        for opportunity in opportunities:
-            if opportunity.id == choice:
+        canvas.configure(yscrollcommand=scrollbar.set) # Connects scrollbar to the canvas
 
-                # Prevents same user from applying multiple times
-                for application in applications:
-                    if (application["username"] == current_user and
-                            application["opportunity_id"] == opportunity.id):
-                        messagebox.showerror(
-                            "Already Applied",
-                            "You have already applied for this opportunity."
-                        )
-                        return
+        # Places applications inside this frame
+        application_frame = frame(canvas)
+        canvas.create_window((0, 0), window=application_frame, anchor="nw")
 
-                # Creates a new Application object
-                new_application = Application(
-                    current_user,
-                    opportunity.id,
-                    opportunity.name,
-                    "Applied"
-                )
+        # Displays each application
+        for application in user_applications:
+            card = tk.Frame(application_frame, bg=LIGHT_GREEN, bd=1, relief="solid")
+            card.pack(fill="x", padx=10, pady=7)
 
-                # Converts Application object into dictionary
-                applications.append({
-                    "username": new_application.username,
-                    "opportunity_id": new_application.opportunity_id,
-                    "opportunity_name": new_application.opportunity_name,
-                    "status": new_application.status
-                })
+            tk.Label(card, text=application["opportunity_name"], font=("Arial", 13, "bold"), bg=LIGHT_GREEN, fg=PRIMARY).pack(anchor="w", padx=12, pady=(10, 4))
+            tk.Label(card, text="✓  Applied", font=("Arial", 10, "bold"), bg=LIGHT_GREEN, fg=GREEN).pack(anchor="w", padx=12, pady=(0, 5))
+            tk.Label(card, text="ID: " + str(application["opportunity_id"]), font=NORMAL_FONT, bg=LIGHT_GREEN, fg=TEXT).pack(anchor="w", padx=12)
+            tk.Label(card, text="Status: " + application["status"], font=NORMAL_FONT, bg=LIGHT_GREEN, fg=TEXT).pack(anchor="w", padx=12, pady=(0, 8))
 
-                save_data("applications.json", applications) # Saves the new application list
+        # Updates the scrollable area to fit all applications
+        application_frame.update_idletasks()
+        canvas.configure(scrollregion=canvas.bbox("all"))
 
-                messagebox.showinfo(
-                    "Application Submitted",
-                    "Your application has been submitted successfully!"
-                )
-                main_menu()
-                return
-
-        messagebox.showerror("Error", "Opportunity not found.")
-        id_entry.delete(0, tk.END)
-        id_entry.focus()
-
-    button(main_frame, "✓  Submit Application", submit_application).pack(pady=10)
-    button(main_frame, "←  Back", main_menu).pack(pady=5)
+    button(root, "←  Back", main_menu, width=15).pack(pady=8, padx=(0, 80)) # Returns the user to the main menu
 
 # ----------------
 # Logout Function
