@@ -1,15 +1,11 @@
-# -----------------------------
 # Opportunity Tracker Program
-# -----------------------------
 
 # Imports modules
 import json
 import tkinter as tk
 from tkinter import messagebox
 
-# ---------
 # Classes
-# ---------
 
 # Stores the username and password of a student
 # Used when creating a new students' account
@@ -36,9 +32,7 @@ class Application:
         self.opportunity_name = opportunity_name
         self.status = status
 
-# --------------
 # File Handling
-# --------------
 
 # Loads data from JSON file and then returns as Python data
 # If file does not yet exist, empty list is returned instead of crashing
@@ -73,9 +67,7 @@ def get_opportunities():
 
     return opportunities
 
-# -------------
 # Main Window
-# -------------
 
 # Creates the main Tkinter Window
 root = tk.Tk()
@@ -103,9 +95,7 @@ BUTTON_FONT = ("Arial", 11, "bold")
 current_user = None
 root.configure(bg=BACKGROUND)
 
-# --------------
 # GUI Functions
-# --------------
 
 # Removes all widgets from current screen
 # Used when changing between different screens
@@ -117,7 +107,7 @@ def clear_screen(): # Gets a list of all widgets currently inside root and remov
 def label(parent, text, font=NORMAL_FONT, colour=TEXT):
     return tk.Label(parent, text=text, font=font, bg=BACKGROUND, fg=colour)
 
-#Creates buttons with program's formatting
+# Creates buttons with program's formatting
 def button(parent, text, command, width=25):
     btn = tk.Button(parent, text=text, command=command, width=width, font=BUTTON_FONT, bg=PRIMARY, fg=WHITE, activebackground=PRIMARY_DARK, activeforeground=WHITE, relief="flat", cursor="hand2")
 
@@ -129,7 +119,7 @@ def button(parent, text, command, width=25):
     def mouse_leave(event):
         btn.configure(bg=PRIMARY)
 
-     #Detects when the cursor is hovering/not hovering the button
+    # Detects when the cursor is hovering/not hovering the button
     btn.bind("<Enter>", mouse_enter)
     btn.bind("<Leave>", mouse_leave)
 
@@ -153,12 +143,10 @@ def exit_program():
         messagebox.showinfo("Goodbye", "Thank you for using Opportunity Tracker!")
         root.destroy() # Closes main Tkinter Window
 
-# -------------
 # Login Screen
-# -------------
 
 def login_screen():
-    clear_screen() #Removes everything currently displayed
+    clear_screen() # Removes everything currently displayed
 
     main_frame = frame(root) # Creates a frame inside main window
     main_frame.pack(expand=True) # Places frame into the window and allows extra space to be used
@@ -172,17 +160,15 @@ def login_screen():
     button(main_frame, "👤  Create Account", signup).pack(pady=8)
     button(main_frame, "✕  Exit", exit_program).pack(pady=8)
 
-# ------------
 # Login Form
-# ------------
 
 def login_form():
-    global username_entry, password_entry #Allows function to create/change variables used by other functions
+    global username_entry, password_entry # Allows function to create/change variables used by other functions
 
     clear_screen() # Removes everything currently displayed
 
     main_frame = frame(root) # Creates main frame for login screen
-    main_frame.pack(expand=True) #  Places the frame in the centre of window
+    main_frame.pack(expand=True) # Places the frame in the centre of window
 
     label(main_frame, "Login", HEADING_FONT, PRIMARY).pack(pady=(20, 25)) # Displays login heading
 
@@ -200,9 +186,7 @@ def login_form():
     button(main_frame, "🔑  Login", login).pack(pady=(20, 8))
     button(main_frame, "←  Back", login_screen).pack(pady=5)
 
-# -----------------
 # Login Validation
-# -----------------
 
 # Checks the user's login details against saved accounts
 def login():
@@ -223,13 +207,13 @@ def login():
         password_entry.focus()
         return
 
-    #Loads all resigstered accounts from JSON file
+    # Loads all resigstered accounts from JSON file
     users = load_data("users.json")
 
     # Searches through users to find matching details
     for user in users:
         if user["username"] == username and user["password"] == password:
-            current_user = username #Saves username as currently logged-in user
+            current_user = username # Saves username as currently logged-in user
             messagebox.showinfo("Login Successful", "Welcome back, " + username + "!")
             main_menu()
             return
@@ -240,9 +224,7 @@ def login():
     password_entry.delete(0, tk.END)
     password_entry.focus()
 
-# ---------------
 # Sign Up Screen
-# ---------------
 
 def signup():
     clear_screen()
@@ -274,19 +256,19 @@ def signup():
         password = new_password_entry.get() # Gets the password entered by the user
         confirm_password = confirm_password_entry.get() # Gets the password entered in the confirmation field
 
-        #Validates that a username has been entered
+        # Validates that a username has been entered
         if username == "":
             messagebox.showerror("Error", "Please enter a username.")
             new_username_entry.focus()
             return
 
-        #Validates that a password has been entered
+        # Validates that a password has been entered
         if password == "":
             messagebox.showerror("Error", "Please enter a password.")
             new_password_entry.focus()
             return
 
-        #Checks that the password meets the minimum length
+        # Checks that the password meets the minimum length
         if len(password) < 6:
             messagebox.showerror(
                 "Password Error",
@@ -297,7 +279,7 @@ def signup():
             new_password_entry.focus()
             return
 
-        #Checks whether both enteries are the same
+        # Checks whether both enteries are the same
         if password != confirm_password:
             messagebox.showerror(
                 "Password Error",
@@ -319,7 +301,7 @@ def signup():
                 new_username_entry.focus()
                 return
 
-        new_student = Student(username, password) #Creates a Student object using validated information
+        new_student = Student(username, password) # Creates a Student object using validated information
 
         # Converts Student object into a dictionary for JSON storage
         users.append({
@@ -327,8 +309,8 @@ def signup():
             "password": new_student.password
         })
 
-        save_data("users.json", users) #Saves the updated user list
-        current_user = username #Automatically logs new user in
+        save_data("users.json", users) # Saves the updated user list
+        current_user = username # Automatically logs new user in
 
         messagebox.showinfo("Account Created", "Account created successfully!\nYou are now logged in.")
         main_menu()
@@ -336,9 +318,7 @@ def signup():
     button(main_frame, "✓  Create Account", create_account).pack(pady=(15, 8))
     button(main_frame, "←  Back", login_screen).pack(pady=5)
 
-# ----------
 # Main Menu
-# ----------
 
 def main_menu():
     clear_screen()
@@ -353,9 +333,7 @@ def main_menu():
     button(main_frame, "📝  My Applications", view_applications).pack(pady=8)
     button(main_frame, "🚪  Logout", logout).pack(pady=8)
 
-# -------------------
 # Application Status
-# -------------------
 
 # Checks whether the current user has already applied for opportunity
 def get_application_status(opportunity_id):
@@ -368,9 +346,7 @@ def get_application_status(opportunity_id):
 
     return "Available" # Returns Avaliable if user has not yet applied
 
-# -------------------------------
 # Direct Opportunity Application
-# -------------------------------
 
 # Handles applications made directly from opportunity card
 def apply_to_opportunity(opportunity):
@@ -398,9 +374,7 @@ def apply_to_opportunity(opportunity):
 
     view_opportunities() # Refreshes the opportunities screen to show the updated application status
 
-# -------------------------
 # Unapply from Opportunity
-# -------------------------
 
 # Allows student to withdraw from an existing application
 def unapply_from_opportunity(opportunity):
@@ -434,9 +408,7 @@ def unapply_from_opportunity(opportunity):
 
     view_opportunities() # Refreshes the opportunity screen
 
-# -------------------
 # View Opportunities
-# -------------------
 
 def view_opportunities():
     clear_screen()
@@ -453,7 +425,7 @@ def view_opportunities():
     search_entry = tk.Entry(search_frame, width=20, font=NORMAL_FONT)
     search_entry.pack(side="left", padx=5, pady=10)
 
-    tk.Label(search_frame, text="Filter:", font=BUTTON_FONT, bg=WHITE, fg=TEXT).pack(side="left", padx=(10, 5)) #Creates the filter label
+    tk.Label(search_frame, text="Filter:", font=BUTTON_FONT, bg=WHITE, fg=TEXT).pack(side="left", padx=(10, 5)) # Creates the filter label
 
     opportunities = get_opportunities()
 
@@ -473,7 +445,7 @@ def view_opportunities():
     filter_menu.configure(font=NORMAL_FONT, width=12)
     filter_menu.pack(side="left", padx=5)
 
-    #Checks whether opportunities list is empty
+    # Checks whether opportunities list is empty
     if len(opportunities) == 0:
         label(root, "No opportunities available.").pack(pady=30)
     else:
@@ -484,7 +456,7 @@ def view_opportunities():
         scrollbar = tk.Scrollbar(root, orient="vertical", command=canvas.yview)
         scrollbar.pack(side="right", fill="y", padx=(0, 20), pady=5)
 
-        canvas.configure(yscrollcommand=scrollbar.set) #Connects scrollbar to the canvas
+        canvas.configure(yscrollcommand=scrollbar.set) # Connects scrollbar to the canvas
 
         opportunity_frame = frame(canvas) # Places opportunities inside this frame
         canvas.create_window((0, 0), window=opportunity_frame, anchor="nw") # Places frame inside Canvas with top left corner as anchor
@@ -588,9 +560,7 @@ def view_opportunities():
 
     button(root, "←  Back", main_menu, width=15).pack(pady=8, padx=(0, 80))
 
-# ----------------
 # My Applications
-# ----------------
 
 # Displays all opportunities the current user has applied for
 def view_applications():
@@ -643,9 +613,7 @@ def view_applications():
 
     button(root, "←  Back", main_menu, width=15).pack(pady=8, padx=(0, 80)) # Returns the user to the main menu
 
-# ----------------
 # Logout Function
-# ----------------
 
 # Logs the current user out and returns to login screen
 def logout():
@@ -657,9 +625,7 @@ def logout():
         messagebox.showinfo("Logged Out", "You have been logged out successfully.")
         login_screen()
 
-# ---------------------
 # Starting the program
-# ---------------------
 
 login_screen() # Calls function and starts by displaying login screen
 root.mainloop() # Keeps Tkinter window running and waits for interactions
