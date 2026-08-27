@@ -1,12 +1,8 @@
-# ----------------------------
 # Opportunity Tracker Program
-# ----------------------------
 
 import json # Imports JSON Module
 
-# --------
 # Classes
-# --------
 
 # Stores the username and password of a student
 # Used when creating a new students' account
@@ -33,9 +29,7 @@ class Application:
         self.opportunity_name = opportunity_name
         self.status = status
 
-# --------------
 # File Handling
-# --------------
 
 # Loads data from JSON file and then returns as Python data
 # If file does not yet exist, empty list is returned instead of crashing
@@ -51,14 +45,11 @@ def save_data(filename, data):
     with open(filename, "w") as file:
         json.dump(data, file, indent=4)
 
-# -----------------
 # Account Functions
-# -----------------
 
 # Allows a new student to create an account and then saves their details to users.json
 def signup():
     users = load_data("users.json")
-
     username = input("Create username: ")
 
     # Checks all existing users to make sure username is not already taken
@@ -106,9 +97,7 @@ def login():
     print("Incorrect username or password.")
     return None
 
-# ----------------------
 # Opportunity Functions
-# ----------------------
 
 # Loads opportunities from the JSON file and the converts them into Opportunity objects
 def get_opportunities():
@@ -189,9 +178,7 @@ def apply_opportunity(username):
     # Runs if entered ID does not match with any avaliable opportunities
     print("Opportunity not found.")
 
-# ----------
 # Main Menu
-# ----------
 
 # Controls the main flow of the program and determines which menu user should see
 # Menu shown depends on whether there is someone logged in or not
