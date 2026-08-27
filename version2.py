@@ -1,15 +1,11 @@
-# -----------------------------
 # Opportunity Tracker Program
-# -----------------------------
 
 # Imports modules
 import json
 import tkinter as tk
 from tkinter import messagebox
 
-# ---------
 # Classes
-# ---------
 
 # Stores the username and password of a student
 # Used when creating a new students' account
@@ -36,9 +32,7 @@ class Application:
         self.opportunity_name = opportunity_name
         self.status = status
 
-# --------------
 # File Handling
-# --------------
 
 # Loads data from JSON file and then returns as Python data
 # If file does not yet exist, empty list is returned instead of crashing
@@ -74,9 +68,7 @@ def get_opportunities():
 
     return opportunities
 
-# -------------
 # Main Window
-# -------------
 
 # Creates the main Tkinter Window
 root = tk.Tk()
@@ -101,9 +93,7 @@ BUTTON_FONT = ("Arial", 11, "bold")
 current_user = None
 root.configure(bg=BACKGROUND)
 
-# --------------
 # GUI Functions
-# --------------
 
 # Removes all widgets from current screen
 # Used when changing between different screens
@@ -141,9 +131,7 @@ def exit_program():
         messagebox.showinfo("Goodbye", "Thank you for using Opportunity Tracker!")
         root.destroy() # Closes main Tkinter Window
 
-# -------------
 # Login Screen
-# -------------
 
 def login_screen():
     clear_screen() # Removes everything currently displayed
@@ -160,9 +148,7 @@ def login_screen():
     button(main_frame, "Create Account", signup).pack(pady=8)
     button(main_frame, "Exit", exit_program).pack(pady=8)
 
-# ------------
 # Login Form
-# ------------
 
 def login_form():
     global username_entry, password_entry # Allows function to create/change variables used by other functions
@@ -185,9 +171,7 @@ def login_form():
     button(main_frame, "Login", login).pack(pady=(20, 8)) #Creates login button
     button(main_frame, "Back", login_screen).pack(pady=5) # Creates back button
 
-# -----------------
 # Login Validation
-# -----------------
 
 # Checks the user's login details against saved accounts
 def login():
@@ -223,9 +207,7 @@ def login():
     password_entry.delete(0, tk.END) # Deletes password that was entered
     password_entry.focus()
 
-# ---------------
 # Sign Up Screen
-# ---------------
 
 def signup():
     clear_screen()
@@ -320,9 +302,7 @@ def signup():
     button(main_frame, "Create Account", create_account).pack(pady=(15, 8))
     button(main_frame, "Back", login_screen).pack(pady=5)
 
-# ----------
 # Main Menu
-# ----------
 
 def main_menu():
     clear_screen()
@@ -337,9 +317,7 @@ def main_menu():
     button(main_frame, "Apply for Opportunity", apply_opportunity).pack(pady=8)
     button(main_frame, "Logout", logout).pack(pady=8)
 
-# -------------------
 # View Opportunities
-# -------------------
 
 def view_opportunities():
     clear_screen()
@@ -380,9 +358,7 @@ def view_opportunities():
 
     button(root, "Back", main_menu, width=15).pack(pady=10)
 
-# ------------------------
 # Opportunity Application
-# ------------------------
 
 def apply_opportunity():
     clear_screen()
@@ -465,9 +441,7 @@ def apply_opportunity():
     button(main_frame, "Submit Application", submit_application).pack(pady=10)
     button(main_frame, "Back", main_menu).pack(pady=5)
 
-# ----------------
 # Logout Function
-# ----------------
 
 # Logs the current user out and returns to login screen
 def logout():
@@ -479,9 +453,7 @@ def logout():
         messagebox.showinfo("Logged Out", "You have been logged out successfully.")
         login_screen()
 
-# ---------------------
 # Starting the program
-# ---------------------
 
 login_screen() # Calls function and starts by displaying login screen
 root.mainloop() # Keeps Tkinter window running and waits for interactions
